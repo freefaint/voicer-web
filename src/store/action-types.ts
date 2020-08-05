@@ -1,0 +1,10 @@
+export enum ActionTypes {
+  FETCH = 'FETCH',
+  ERROR = 'ERROR',
+
+  LOGIN = 'LOGIN',
+  LOGOUT = 'LOGOUT',
+  GET_USER = 'GET_USER',
+  BAD_CREDENTIALS = 'BAD_CREDENTIALS',
+  ACCESS_DENIED = 'ACCESS_DENIED',
+}

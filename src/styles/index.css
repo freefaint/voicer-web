@@ -1,0 +1,36 @@
+@font-face {
+  font-family: 'SFProRounded';
+  font-weight: bold;
+  src: url(../assets/fonts/SF-Pro-Rounded-Bold.otf) format('opentype');
+}
+
+@font-face {
+  font-family: 'SFProRounded';
+  font-weight: 500;
+  src: url(../assets/fonts/SF-Pro-Rounded-Medium.otf) format('opentype');
+}
+
+@font-face {
+  font-family: 'SFProText';
+  font-weight: normal;
+  src: url(../assets/fonts/SF-Pro-Text-Regular.otf) format('opentype');
+}
+
+@font-face {
+  font-family: 'SFProText';
+  font-weight: 500;
+  src: url(../assets/fonts/SF-Pro-Text-Medium.otf) format('opentype');
+}
+
+body {
+  margin: 0;
+  font-size: 16px;
+  font-weight: normal;
+  font-family: SFProText, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
