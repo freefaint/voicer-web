@@ -63,13 +63,13 @@ export const fbauth = (data: any) => {
 export const register = async (data: any) => {
   let phone = data.phone && data.phone.split(/\D/).filter((i: string) => !!i).join('').substr(-11);
 
-  if (phone.length === 10) {
+  if (phone && phone.length === 10) {
     phone = '7' + phone;
   }
 
   console.log(phone);
 
-  if (phone.length < 11 && phone.length > 0) {
+  if (phone && phone.length < 11 && phone.length > 0) {
     return Promise.reject({ exist: 'phone' });
   }
 
@@ -96,7 +96,7 @@ export const register = async (data: any) => {
 
   if (!data._google && !data._facebook) {
     // sendSMS(data.phone, 'Код проверки: ' + code);
-    sendSMS(data.phone, code);
+    // sendSMS(data.phone, code);
   }
 
   console.log('sms sent');
