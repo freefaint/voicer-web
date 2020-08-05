@@ -2,7 +2,7 @@
 import fs from 'fs';
 import path from 'path';
 import http from 'http';
-import https from 'https';
+// import https from 'https';
 
 // Libs
 import express, { Router } from 'express';
@@ -21,10 +21,10 @@ import { createApi as createVacancyApi } from './api/vacancy';
 import { createApi as createMessagesApi } from './api/messages';
 
 // SSL
-const privateKey = fs.readFileSync(path.resolve(__dirname + '/../sslcert/server.key'));
-const certificate = fs.readFileSync(path.resolve(__dirname + '/../sslcert/server.cert'));
+// const privateKey = fs.readFileSync(path.resolve(__dirname + '/../sslcert/server.key'));
+// const certificate = fs.readFileSync(path.resolve(__dirname + '/../sslcert/server.cert'));
 
-const credentials = {key: privateKey, cert: certificate};
+// const credentials = {key: privateKey, cert: certificate};
 
 // Express
 const app = express();
@@ -87,9 +87,13 @@ app.use('/', router);
 
 
 
-const httpsServer = https.createServer(credentials, app);
+// const httpsServer = http.createServer(credentials, app);
 
-httpsServer.listen(process.env.SSLPORT || 443);
+// httpsServer.listen(process.env.SSLPORT || 443);
+
+const httpServer = http.createServer(app);
+
+httpServer.listen(process.env.PORT || 8080);
 
 // http.createServer(function (req, res) {
 //   res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
