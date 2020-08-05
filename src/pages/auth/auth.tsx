@@ -35,7 +35,7 @@ export const Auth = (props: { user?: IUser; onLogout?: () => void; }) => {
             </BlockLink>  
           </Column>
           
-          <Column style={{ margin: '0 1rem' }}>
+          {/* <Column style={{ margin: '0 1rem' }}>
             <a href="/auth/google">
               <GoogleButton>Аккаунт Google</GoogleButton>
             </a>
@@ -45,7 +45,7 @@ export const Auth = (props: { user?: IUser; onLogout?: () => void; }) => {
             <a href="/auth/facebook">
               <FacebookButton>Аккаунт Facebook</FacebookButton>
             </a>
-          </Column>
+          </Column> */}
         </Row>
       )}
     </Column>
