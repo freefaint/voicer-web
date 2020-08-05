@@ -6,7 +6,7 @@ module.exports = {
       watch: true,
 
       env: {
-        "PORT": 8080,
+        "PORT": 8081,
         "SSLPORT": 443,
         "DOMAIN": "localhost",
         "PROTOCOL": "https"
