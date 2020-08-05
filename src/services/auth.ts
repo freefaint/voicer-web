@@ -69,7 +69,7 @@ export const register = async (data: any) => {
 
   console.log(phone);
 
-  if (phone.length < 11) {
+  if (phone.length < 11 && phone.length > 0) {
     return Promise.reject({ exist: 'phone' });
   }
 
