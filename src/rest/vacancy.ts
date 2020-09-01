@@ -25,5 +25,5 @@ export const addItem = (data: IVacancy) => {
 }
 
 export const removeItem = (id: string) => {
-  return del('/vacancy' + id);
+  return del('/vacancy/' + id);
 }
