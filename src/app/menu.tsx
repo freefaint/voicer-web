@@ -24,16 +24,11 @@ const MenuItemBlock = styled(Link)`
   :hover {
     background-color: rgba(255, 255, 255, 0.08);
   }
-
-  ${(p: IMenuItem) => p.current && css`
-    cursor: default;
-    background-color: rgba(255, 255, 255, 0.08);
-  `};
 `;
 
 const MenuItem = (props: LinkProps & IMenuItem) => {
   return (
-    <MenuItemBlock {...props} />
+    <MenuItemBlock {...props} to={props.to as string} style={props.current ? { cursor: 'default', backgroundColor: 'rgba(255, 255, 255, 0.08)' } : undefined} />
   );
 };
 

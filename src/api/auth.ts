@@ -34,7 +34,7 @@ export const createApi = (router: Router) => {
       return res.redirect(authorizeUrl);
     }
 
-    google.getToken(req.query.code).then(resp => {
+    google.getToken(req.query.code as string).then(resp => {
       if (req.session) {
         req.session.google = resp;
         res.redirect('/account');

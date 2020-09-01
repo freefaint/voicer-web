@@ -36,6 +36,6 @@ export const get = (id: string) => {
   return model.findById(id).then(file => safe(file));
 };
 
-export const list = (message?: IMessage): Promise<IMessage[]> => {
+export const list = (message: IMessage): Promise<IMessage[]> => {
   return model.find(message).then(messages => messages.map(safe) as IMessage[]);
 };
