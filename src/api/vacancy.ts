@@ -45,6 +45,6 @@ export const createApi = (router: Router) => {
   });
   
   router.delete('/api/v1/vacancy/:id', function(req, res) {
-    Storage.removeItem(req.params.id).then(() => null);
+    Storage.removeItem(req.params.id).then(() => res.send(null));
   });
 }
