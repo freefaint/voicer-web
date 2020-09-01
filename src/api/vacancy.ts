@@ -7,7 +7,7 @@ import * as UserStorage from '../storage/users';
 
 export const createApi = (router: Router) => {
   router.post('/api/v1/vacancy/find', function(req, res) {
-    Storage.findItems({ }).then(items => {
+    Storage.findItems(req.body).then(items => {
       return Promise.all(items.map(item => !item || !item.company ? Promise.resolve({}) : UserStorage.getItem(item.company))).then(users => {
         const result = items.map((i, j) => ({ ...i, user: users[j] }));
         
