@@ -2,6 +2,10 @@ export interface ISkill {
   name: string;
 }
 
+export interface ISphere {
+  name: string;
+}
+
 export interface IEducation {
   institute: string;
   facultete: string;

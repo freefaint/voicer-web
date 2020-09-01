@@ -10,6 +10,9 @@ const schema = new mongoose.Schema({
   name: String,
   salary: String,
   text: String,
+
+  sphere: Array,
+  time: String,
 });
 
 const model = mongoose.model('resume', schema, 'resume');

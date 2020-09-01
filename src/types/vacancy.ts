@@ -1,5 +1,5 @@
 // Types
-import { IUser } from "./users";
+import { IUser, ISkill } from "./users";
 
 export interface IVacancy {
   _id?: string;
@@ -9,6 +9,15 @@ export interface IVacancy {
   name?: string;
   salary?: string;
   text?: string;
+
+  department?: string;
+  sphere?: string;
+  age?: string;
+  experience?: string;
+  address?: string;
+  timetable?: string;
+  skills?: ISkill[];
+  time?: string;
 
   user?: IUser;
 }

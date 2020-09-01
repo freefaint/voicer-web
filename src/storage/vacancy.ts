@@ -10,6 +10,15 @@ const schema = new mongoose.Schema({
   name: String,
   salary: String,
   text: String,
+  
+  department: String,
+  sphere: String,
+  age: String,
+  experience: String,
+  address: String,
+  timetable: String,
+  skills: Array,
+  time: String,
 });
 
 const model = mongoose.model('vacancy', schema, 'vacancy');

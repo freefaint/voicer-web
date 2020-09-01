@@ -1,5 +1,5 @@
 // Types
-import { IUser } from "./users";
+import { IUser, ISphere } from "./users";
 
 export interface IResume {
   _id?: string;
@@ -9,6 +9,9 @@ export interface IResume {
   name?: string;
   salary?: string;
   text?: string;
+
+  spheres?: ISphere[];
+  time?: string;
 
   user?: IUser;
 }
