@@ -11,5 +11,6 @@
   padding-bottom: 4rem;
   box-sizing: border-box;
   color: #fff;
-  text-shadow: 0rem 0rem 0.75rem #000;;
+  text-shadow: 0rem 0rem 0.75rem #000;
+  transition: all 500ms ease-out;
 }
