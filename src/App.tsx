@@ -1,19 +1,26 @@
 /* eslint-disable import/no-webpack-loader-syntax */
 import React, { useEffect, useState } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 import products from './prods.json';
 
-const check = (results: string[]) => {
-  
+interface Product {
+  name: string;
+  names: string[];
+  img: string;
+}
+
+const refresh = async (): Promise<Product[]> => {
+  return fetch('/products.json').then(resp => resp.json())
 }
 
 function App() {
   // const [ text, setText ] = useState<string | undefined>();
   const [ name, setName ] = useState<string>('');
-  const [ img, setImg ] = useState<string>(logo);
+  const [ img, setImg ] = useState<string>();
   const [ result, setResult ] = useState<string>('');
+  const [ db, setDb ] = useState<Product[]>(products);
+  const [ showText, setShowText ] = useState(true);
 
   useEffect(() => {
     // @ts-ignore
@@ -42,26 +49,35 @@ function App() {
     }
 
     voice.start();
+
+    setInterval(async () => {
+      try {
+        const data = await refresh();
+
+        setDb(data);
+      } catch (e) {
+        console.log('no data');
+      }
+    }, 10000);
   }, []);
 
   useEffect(() => {
-    const prod = products.find(i => i.names.find(j => result.indexOf(j) !== -1));
+    const prod = db.find(i => i.names.find(j => result.indexOf(j) !== -1));
 
     if (prod) {
       setName(prod.name);
       setImg(prod.img);
     }
+    
+    if (result.indexOf('показать текст') !== -1) {
+      setShowText(!showText);
+    }
 
-  }, [ result ])
+  }, [ result, db ])
 
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={img} className="App-logo" alt="logo" />
-        <pre>
-          {name}
-        </pre>
-      </header>
+  return  (
+    <div className="App" style={{ backgroundImage: `url(${img})` }}>
+      {showText ? name : ''}
     </div>
   );
 }
