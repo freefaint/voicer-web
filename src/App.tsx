@@ -1,63 +1,15 @@
 import { useEffect, useState } from 'react';
 import './App.css';
+import { useDB } from './hooks/useDB';
+import { useSpeech } from './hooks/useSpeech';
 
-import products from './prods.json';
+import products from './products.json';
 
-interface Product {
-  name: string;
-  names: string[];
-  img: string;
-}
-
-function useSpeech() {
-  const [ result, setResult ] = useState<{ results: string[], final: boolean }>();
-
-  useEffect(() => {
-    // @ts-ignore
-    const voice = new webkitSpeechRecognition();
-
-    voice.lang = 'ru-RU';
-    voice.continious = true;
-    voice.interimResults = true;
-
-    voice.onerror = (err: any) => {
-      console.log('error', err);
-    }
-
-    voice.onresult = (e: any) => {
-      const results = Object.keys(e.results[0]).filter(i => parseInt(i, 10).toString() === i).map(i => e.results[0][i].transcript);
-      
-      setResult({ results, final: e.results[0].isFinal });
-      console.log(results);
-    }
-
-    voice.onend = () => {
-      console.log('end');
-
-      setTimeout(() => voice.start(), 100);
-    }
-
-    voice.start();
-  }, []);
-
-  return result;
-}
-
-function useServicePulse() {
-  const [ db, setDb ] = useState<Product[]>();
-
-  useEffect(() => {
-    setInterval(async () => {
-      try {
-        setDb(await fetch('/products.json').then(resp => resp.json()));
-      } catch (e) {
-        console.log('no data');
-      }
-    }, 10000);
-  }, []);
-
-  return db;
-}
+// interface Product {
+//   name: string;
+//   names: string[];
+//   img: string;
+// }
 
 function App() {
   const [ name, setName ] = useState<string>('');
@@ -65,7 +17,7 @@ function App() {
   const [ showText, setShowText ] = useState(true);
 
   const speech = useSpeech();
-  const db = useServicePulse()
+  const db = useDB(products)
 
   const data = products || db;
 
@@ -79,10 +31,10 @@ function App() {
     }
     
     if (speech?.results.find(i => i.indexOf('показать текст') !== -1)) {
-      setShowText(!showText);
+      setShowText(showText => !showText);
     }
 
-  }, [ speech, db ])
+  }, [ speech, db, setShowText, data ])
 
   return  (
     <div className="App" style={{ backgroundImage: `url(${img})` }}>
