@@ -36,7 +36,7 @@ export const Shop = () => {
       <OldProductCard product={shop.current} showText={oldShop} />
     ) : null;
   }
-  console.log(cart);
+  
   return (
     <>
       <div style={{ display: "flex", height: "100vh", padding: "2rem 0 2rem 2rem", boxSizing: "border-box", backgroundColor: "#eee", transition: "all 200ms ease-out", filter: shop.current ? "blur(20px)" : "none" }}>
