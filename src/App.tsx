@@ -1,5 +1,3 @@
-import './App.css';
-
 import products from './products.json';
 
 import { Shop } from './components/shop';
@@ -13,7 +11,7 @@ import { useDB } from './hooks/useDB';
 import { Product } from './types/product';
 
 function App() {
-  const db = useDB<Product>(products);
+  const db = useDB<Product>(products, async () => fetch('/products.json').then(resp => resp.json()));
 
   return (
     <SpeechProvider>

@@ -6,7 +6,7 @@ import { Product } from "../../types/product";
 
 import { ProductItem } from "./item";
 
-export const ProductList = ({ products }: { products: Product[] }) => {
+export const ProductList = ({ products, style, onCommand }: { products: Product[], onCommand: () => void } & React.HTMLProps<HTMLDivElement>) => {
   const container = useRef<HTMLDivElement | null>(null);
 
   useCommand('вниз', () => {
@@ -14,6 +14,7 @@ export const ProductList = ({ products }: { products: Product[] }) => {
       return;
     }
 
+    onCommand();
     container.current.scrollTop = container.current.clientHeight + container.current.scrollTop;
   });
 
@@ -22,11 +23,12 @@ export const ProductList = ({ products }: { products: Product[] }) => {
       return;
     }
     
+    onCommand();
     container.current.scrollTop = container.current.scrollTop - container.current.clientHeight;
   });
 
   return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
+    <div style={{ display: "flex", flexDirection: "column", ...style }}>
       <Typography gutterBottom variant="h2" component="h2">
         Наше меню
       </Typography>

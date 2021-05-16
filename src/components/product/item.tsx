@@ -26,12 +26,15 @@ export const ProductItem = ({ product }: { product: Product }) => {
             title={product.name}
           />
           <CardContent>
+            <Typography gutterBottom variant="body2" component="h2">
+              {product.name}
+            </Typography>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <Typography gutterBottom variant="body2" component="h2">
-                {product.name}
-              </Typography>
               <Typography variant="body2" color="error" component="p">
                 {product.cost}
+              </Typography>
+              <Typography variant="body2" color="textSecondary" component="p">
+                {product.weight}
               </Typography>
             </div>
           </CardContent>

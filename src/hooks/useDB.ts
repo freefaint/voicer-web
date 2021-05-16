@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 
 
-export const useDB = <T>(data: T[]) => {
+export const useDB = <T>(data: T[], source: () => Promise<T[]>) => {
   const [ db, setDb ] = useState<T[]>(data);
 
   useEffect(() => {
     setInterval(async () => {
       try {
-        setDb(await fetch('/products.json').then(resp => resp.json()));
+        const products = await source();
+        
+        setDb(products);
       } catch (e) {
         console.log('no data');
       }
