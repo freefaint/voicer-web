@@ -39,32 +39,25 @@ export const ShopProvider = ({ children, products }: PropsWithChildren<{ product
   }, [ demoTimer.seconds ]);
 
   useEffect(() => {
-    let target;
-    let variants = products.map(i => ({
-      ...i,
-      mainResults: speech?.results.map(k => ({ speech: k, ok: k.toLowerCase().indexOf(i.name.replace(/[\(\)]/, '').toLowerCase()) !== -1 }) ),
-      namesResults: i.names.map(j => ({ name: j, results: speech?.results.map(k => ({ speech: k, ok: k.toLowerCase().indexOf(j.toLowerCase()) !== -1 }) ) }) )
-    }) ).filter(i => 
-      i.mainResults?.find(j => j.ok) ||
-      i.namesResults?.find(j => j.results?.find(k => k.ok)));
-    
-    console.log('VARIANTS', variants);
-    
-    if (variants.find(i => i.mainResults?.find(j => j.ok))) {
-      variants = variants.filter(i => i.mainResults?.find(j => j.ok)).sort((a, b) => a.name.replace(/[\(\)]/, '').length > b.name.replace(/[\(\)]/, '').length ? -1 : 1);
-    } else {
-      variants = variants.sort((a, b) => {
-        const first = Math.max(...a.namesResults.filter(i => i.results?.find(j => j.ok)).map(i => i.name.length));
-        const second = Math.max(...b.namesResults.filter(i => i.results?.find(j => j.ok)).map(i => i.name.length));
-
+    const variants = products
+      .map(i => ({
+        ...i,
+        results: [
+          { name: i.name, results: speech?.results.map(k => ({ speech: k, ok: k.toLowerCase().indexOf(i.name.replace(/[()"«»]/, '').toLowerCase().trim()) !== -1 }) ) },
+          ...i.names.map(j => ({ name: j, results: speech?.results.map(k => ({ speech: k, ok: k.toLowerCase().indexOf(j.toLowerCase().trim()) !== -1 }) ) }) )
+        ]
+      }) )
+      .filter(i => i.results?.find(j => j.results?.find(k => k.ok)))
+      .sort((a, b) => {
+        const first = Math.max(...a.results.filter(i => i.results?.find(j => j.ok)).map(i => i.name.length));
+        const second = Math.max(...b.results.filter(i => i.results?.find(j => j.ok)).map(i => i.name.length));
+  
         return first > second ? -1 : first < second ? 1 : 0;
       });
-    }
-    
-    console.log('SORTED VARIANTS', variants);
-    console.log('FINAL VARIANT', variants[0]);
 
-    target = variants[0];
+    console.log('VARIANTS', variants);
+
+    const target = variants[0];
 
     if (target && currentId !== target.id) {
       setCurrentId(target.id);
