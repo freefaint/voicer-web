@@ -6,7 +6,13 @@ import { Product } from "../../types/product";
 
 import { ProductItem } from "./item";
 
-export const ProductList = ({ products, style, onCommand }: { products: Product[], onCommand: () => void } & React.HTMLProps<HTMLDivElement>) => {
+interface Props extends React.HTMLProps<HTMLDivElement> {
+  products: Product[];
+  onCommand: () => void;
+  onSelectProduct: (id: string) => void;
+}
+
+export const ProductList = ({ products, style, onCommand, onSelectProduct }: Props) => {
   const container = useRef<HTMLDivElement | null>(null);
 
   useCommand('вниз', () => {
@@ -36,8 +42,8 @@ export const ProductList = ({ products, style, onCommand }: { products: Product[
       <div ref={container} style={{ display: "flex", overflow: "auto", scrollBehavior: "smooth" }}>
         <Grid container spacing={0} style={{ margin: "none" }}>
           {products.map(product => (
-            <Grid xs={3}>
-              <ProductItem product={product} />
+            <Grid key={product.id} xs={3}>
+              <ProductItem product={product} onSelect={onSelectProduct} />
             </Grid>
           ))}
         </Grid>

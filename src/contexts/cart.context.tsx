@@ -14,17 +14,15 @@ export const CartProvider = ({ children }: PropsWithChildren<{}>) => {
     });
   }, [ setProducts ]);
 
-  const del = useCallback((id: string, count?: number) => {
+  const count = useCallback((id: string, count: number) => {
     setProducts(items => {
-      const item = items.find(i => i.id === id);
+      return items.map(i => i.id === id ? { id, count } : i);
+    });
+  }, [ setProducts ]);
 
-      if (!item) {
-        return items;
-      }
-
-      const result = item.count === 1 || item.count === count ? items.filter(i => i.id !== id) : items.map(i => i.id === id ? { id, count: i.count - (count ?? i.count) } : i);
-
-      return result.filter(i => i.count);
+  const del = useCallback((id: string) => {
+    setProducts(items => {
+      return items.filter(i => i.id !== id);
     })
   }, [ setProducts ]);
 
@@ -38,6 +36,7 @@ export const CartProvider = ({ children }: PropsWithChildren<{}>) => {
     products,
     add,
     del,
+    count,
     clear
   }
 

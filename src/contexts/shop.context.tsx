@@ -15,20 +15,34 @@ export const ShopProvider = ({ children, products }: PropsWithChildren<{ product
   const demoTimer = useTimeout(180);
 
   const [ currentId, setCurrentId ] = useState<string>();
-  const [ count, setCount ] = useState(1);
 
   const speech = useSpeech();
   const cart = useContext(CartContext);
 
   const close = useCallback(() => {
+    demoTimer.reset();
     setCurrentId(undefined);
-  }, [ setCurrentId ]);
+  }, [ setCurrentId, demoTimer ]);
 
   const selectRandom = useCallback(() => {
     setCurrentId(products[Math.ceil(Math.random() * products.length) - 1].id);
   }, [ setCurrentId, products ]);
 
-  const add = useCallback((id: string) => cart?.add(id), [ cart ]);
+  const add = useCallback((id: string, count?: number) => {
+    demoTimer.reset();
+    cart?.add(id, count);
+    close();
+  }, [ cart, demoTimer, close ]);
+
+  const remove = useCallback((id: string) => {
+    demoTimer.reset();
+    cart?.del(id);
+  }, [ cart, demoTimer ]);
+
+  const count = useCallback((id: string, count: number) => {
+    demoTimer.reset();
+    cart?.count(id, count);
+  }, [cart, demoTimer]);
 
   useEffect(() => {
     if (!demoTimer.seconds) {
@@ -43,8 +57,22 @@ export const ShopProvider = ({ children, products }: PropsWithChildren<{ product
       .map(i => ({
         ...i,
         results: [
-          { name: i.name, results: speech?.results.map(k => ({ speech: k, ok: k.toLowerCase().indexOf(i.name.replace(/[()"«»]/, '').toLowerCase().trim()) !== -1 }) ) },
-          ...i.names.map(j => ({ name: j, results: speech?.results.map(k => ({ speech: k, ok: k.toLowerCase().indexOf(j.toLowerCase().trim()) !== -1 }) ) }) )
+          {
+            name: i.name, 
+
+            results: speech?.results.map(k => ({
+              speech: k,
+              ok: k.toLowerCase().indexOf(i.name.replace(/[()"«»]/, '').toLowerCase().trim()) !== -1 
+            }))
+          },
+
+          ...i.names.map(j => ({
+            name: j,
+            
+            results: speech?.results.map(k => ({
+              speech: k,
+              ok: k.toLowerCase().indexOf(j.toLowerCase().trim()) !== -1 }) )
+            }))
         ]
       }) )
       .filter(i => i.results?.find(j => j.results?.find(k => k.ok)))
@@ -63,10 +91,6 @@ export const ShopProvider = ({ children, products }: PropsWithChildren<{ product
       setCurrentId(target.id);
     }
   }, [ speech, products, currentId ]);
-
-  useEffect(() => {
-    setCount(1);
-  }, [ currentId ]);
 
   useCommand('закрыть', () => {
     demoTimer.reset();
@@ -87,6 +111,11 @@ export const ShopProvider = ({ children, products }: PropsWithChildren<{ product
     }
   });
 
+  const clear = useCallback(() => {
+    demoTimer.reset();
+    cart?.clear();
+  }, [ demoTimer, cart ]);
+
   useCommand('очистить корзину', command => {
     demoTimer.reset();
     cart?.clear();
@@ -97,8 +126,11 @@ export const ShopProvider = ({ children, products }: PropsWithChildren<{ product
     currentId,
     count,
     close,
+    clear,
     resetDemoTimer: demoTimer.reset,
     add,
+    remove,
+    setCurrentId,
   }
 
   return (

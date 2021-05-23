@@ -6,6 +6,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 
 import { Product } from "../../types/product";
+import { useCallback } from 'react';
 
 const useStyles = makeStyles({
   media: {
@@ -13,13 +14,15 @@ const useStyles = makeStyles({
   },
 });
 
-export const ProductItem = ({ product }: { product: Product }) => {
+export const ProductItem = ({ product, onSelect }: { product: Product, onSelect: (id: string) => void }) => {
   const classes = useStyles();
+
+  const handleClick = useCallback(() => onSelect(product.id), [ product.id ]);
 
   return (
     <div style={{ margin: "0 2rem 2rem 0" }}>
       <Card>
-        <CardActionArea>
+        <CardActionArea onClick={handleClick}>
           <CardMedia
             className={classes.media}
             image={product.img}
