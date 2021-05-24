@@ -66,7 +66,7 @@ export const Shop = () => {
     const data = cart.products.map(i => ({ product: shop.products.filter(j => j.id === i.id)[0], count: i.count }));
     const total = data.map(i => i.count * parseInt(i.product.cost)).reduce((a,b) => a + b, 0);
 
-    fetch('/mail.php', { method: 'post', body: JSON.stringify({ data, total }) });
+    fetch('/mail.php', { method: 'post', body: JSON.stringify({ order: orderNumber, data, total }) });
 
     shop.clear();
 
