@@ -63,8 +63,10 @@ export const Shop = () => {
   const handleOrder = useCallback(() => {
     const orderNumber = new Date().valueOf().toString().substr(6, 4);
 
-    // const data = cart.products.map(i => ({ product: shop.products.filter(j => j.id === i.id)[0], count: i.count }));
-    // const total = data.map(i => i.count * parseInt(i.product.cost)).reduce((a,b) => a + b, 0);
+    const data = cart.products.map(i => ({ product: shop.products.filter(j => j.id === i.id)[0], count: i.count }));
+    const total = data.map(i => i.count * parseInt(i.product.cost)).reduce((a,b) => a + b, 0);
+
+    fetch('/mail.php', { method: 'post', body: JSON.stringify({ data, total }) });
 
     shop.clear();
 
