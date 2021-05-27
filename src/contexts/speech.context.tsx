@@ -34,6 +34,8 @@ export const SpeechProvider = ({ children }: PropsWithChildren<{}>) => {
     voice.start();
   }, []);
 
+  console.log('VOICE', result?.results.join('; '));
+
   return (
     <SpeechContext.Provider value={result}>
       {children}

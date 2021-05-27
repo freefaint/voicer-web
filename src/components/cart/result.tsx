@@ -1,6 +1,7 @@
-import { createStyles, DialogContent, Fab, Grid, Hidden, makeStyles, Paper, Theme, Typography } from "@material-ui/core";
-import { ClearRounded, ShoppingCart } from "@material-ui/icons";
+import { createStyles, DialogContent, Fab, makeStyles, Paper, Theme, Typography } from "@material-ui/core";
 import CloseIcon from '@material-ui/icons/CloseRounded';
+import { useEffect } from "react";
+import { useCommand } from "../../hooks/useCommand";
 
 import { Product } from "../../types/product";
 
@@ -22,6 +23,12 @@ interface Props {
 
 export const Result = ({ code, onClose }: Props) => {
   const buttonClasses = useButtonStyles();
+
+  useCommand('Закрыть', onClose);
+
+  useEffect(() => {
+    setTimeout(onClose, 30000);
+  }, []);
 
   return (
     <Paper>
