@@ -1,5 +1,6 @@
 import { createStyles, Fab, Grid, Hidden, makeStyles, Theme, Typography } from "@material-ui/core";
 import { ClearRounded, ShoppingCart } from "@material-ui/icons";
+import { useCommand } from "../../hooks/useCommand";
 
 import { Product } from "../../types/product";
 
@@ -22,6 +23,8 @@ interface Props extends React.HTMLProps<HTMLDivElement> {
 
 export const CartList = ({ cart, style, onClear, onOrder }: Props) => {
   const buttonClasses = useButtonStyles();
+
+  useCommand('Заказать', onOrder);
 
   return (
     <div style={{ ...style, width: !cart.length ? 0 : "400px", minWidth: !cart.length ? 0 : "400px", marginRight: !cart.length ? "0" : "2rem", opacity: !cart.length ? 0 : 1, transition: "all 200ms ease-out", display: "flex", flexDirection: "column" }}>

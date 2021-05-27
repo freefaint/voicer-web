@@ -1,6 +1,7 @@
 import { createStyles, DialogContent, Fab, Grid, Hidden, makeStyles, Paper, Theme, Typography } from "@material-ui/core";
 import { ClearRounded, ShoppingCart } from "@material-ui/icons";
 import CloseIcon from '@material-ui/icons/CloseRounded';
+import { useCommand } from "../../hooks/useCommand";
 
 import { Product } from "../../types/product";
 
@@ -28,6 +29,9 @@ interface Props {
 
 export const Cart = ({ cart, onClear, onCount, onRemove, onClose, onOrder }: Props) => {
   const buttonClasses = useButtonStyles();
+
+  useCommand('Отправить', onOrder);
+  useCommand('Оформить заказ', onOrder);
 
   return (
     <Paper>
