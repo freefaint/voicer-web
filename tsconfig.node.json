@@ -28,6 +28,8 @@
     "src/components",
     "src/pages",
     "src/rest",
+    "src/contexts",
+    "src/hooks",
     "src/styles",
     "src/index.tsx",
     "src/react-app-env.d.ts",

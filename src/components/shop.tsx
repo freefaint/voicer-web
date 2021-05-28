@@ -42,7 +42,8 @@ export const Shop = () => {
         product={current}
       />
     ) : () => <></>
-  }, [current, cart, shop]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [current, cart]);
 
   const handleOpenCart = useCallback(() => {
     setOpenedCart(true);
@@ -75,7 +76,7 @@ export const Shop = () => {
     }
   }, [cart, cart?.products]);
 
-  const dialog = useMemo(() => cart && shop && (
+  const productDialog = useMemo(() => cart && shop && (
     <Dialog
       fullWidth={true}
 
@@ -88,7 +89,8 @@ export const Shop = () => {
       onClose={shop.close}
       PaperComponent={props => Paper(props)}
     />
-  ), [cart, shop, classes.dialog, current, Paper]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  ), [cart, classes.dialog, current, Paper]);
 
   const cartDialog = useMemo(() => cart && shop && (
     <Dialog
@@ -146,7 +148,7 @@ export const Shop = () => {
         />
       </div>
         
-      {dialog}
+      {productDialog}
       {cartDialog}
       {readyDialog}
     </>

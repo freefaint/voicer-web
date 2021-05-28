@@ -12,26 +12,24 @@ export const SpeechProvider = ({ children }: PropsWithChildren<{}>) => {
     const voice = new webkitSpeechRecognition();
 
     voice.lang = 'ru-RU';
-    voice.continuous = true;
+    // voice.continuous = true;
     voice.interimResults = true;
 
     voice.onerror = (err: any) => {
-      console.log('error', err);
+      // console.log('error', err);
     }
 
     voice.onresult = (e: any) => {
       const results = Object.keys(e.results[0]).filter(i => parseInt(i, 10).toString() === i).map(i => e.results[0][i].transcript);
-      
+      // console.log(e.results);
       setResult({ results, final: e.results[0].isFinal });
     }
 
     voice.onend = () => {
-      console.log('end');
+      // console.log('end');
 
       setTimeout(() => voice.start(), 100);
     }
-
-    console.log(1234);
 
     voice.start();
   }, []);

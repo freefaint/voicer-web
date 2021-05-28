@@ -12,7 +12,7 @@ import { CartContext } from "./cart.context";
 export const ShopContext = createContext<Shop | undefined>(undefined);
 
 export const ShopProvider = ({ children, products }: PropsWithChildren<{ products: Product[] }>) => {
-  const demoTimer = useTimeout(180);
+  const { seconds, reset } = useTimeout(180);
 
   const [ currentId, setCurrentId ] = useState<string>();
 
@@ -20,37 +20,42 @@ export const ShopProvider = ({ children, products }: PropsWithChildren<{ product
   const cart = useContext(CartContext);
 
   const close = useCallback(() => {
-    demoTimer.reset();
+    reset();
     setCurrentId(undefined);
-  }, [ setCurrentId, demoTimer ]);
+  }, [ setCurrentId, reset ]);
 
   const selectRandom = useCallback(() => {
     setCurrentId(products[Math.ceil(Math.random() * products.length) - 1].id);
   }, [ setCurrentId, products ]);
 
   const add = useCallback((id: string, count?: number) => {
-    demoTimer.reset();
+    reset();
     cart?.add(id, count);
     close();
-  }, [ cart, demoTimer, close ]);
+  }, [ cart, reset, close ]);
 
   const remove = useCallback((id: string) => {
-    demoTimer.reset();
+    reset();
     cart?.del(id);
-  }, [ cart, demoTimer ]);
+  }, [ cart, reset ]);
 
   const count = useCallback((id: string, count: number) => {
-    demoTimer.reset();
+    reset();
     cart?.count(id, count);
-  }, [cart, demoTimer]);
+  }, [cart, reset]);
+
+  const clear = useCallback(() => {
+    reset();
+    cart?.clear();
+  }, [ reset, cart ]);
 
   useEffect(() => {
-    if (!demoTimer.seconds) {
+    if (!seconds) {
       cart?.clear();
       selectRandom();
-      demoTimer.reset();
+      reset();
     }
-  }, [cart, demoTimer, demoTimer.seconds, selectRandom]);
+  }, [cart, reset, seconds, selectRandom]);
 
   useEffect(() => {
     const variants = products
@@ -92,34 +97,21 @@ export const ShopProvider = ({ children, products }: PropsWithChildren<{ product
     }
   }, [ speech, products, currentId ]);
 
-  useCommand('закрыть', () => {
-    demoTimer.reset();
-    close()
-  });
+  useCommand('закрыть', close);
 
-  useCommand('добавить', command => {
+  useCommand('добавить', _command => {
     if (currentId) {
-      demoTimer.reset();
-      cart?.add(currentId, 1);
+      add(currentId, 1);  
     }
   });
 
-  useCommand('удалить', command => {
+  useCommand('удалить', () => {
     if (currentId) {
-      demoTimer.reset();
-      cart?.del(currentId);
+      remove(currentId);
     }
   });
 
-  const clear = useCallback(() => {
-    demoTimer.reset();
-    cart?.clear();
-  }, [ demoTimer, cart ]);
-
-  useCommand('очистить корзину', command => {
-    demoTimer.reset();
-    cart?.clear();
-  });
+  useCommand('очистить корзину', clear);
 
   const context = {
     products,
@@ -127,7 +119,7 @@ export const ShopProvider = ({ children, products }: PropsWithChildren<{ product
     count,
     close,
     clear,
-    resetDemoTimer: demoTimer.reset,
+    resetDemoTimer: reset,
     add,
     remove,
     setCurrentId,
