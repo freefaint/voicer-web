@@ -1,5 +1,5 @@
 // Env
-import fs from 'fs';
+// import fs from 'fs';
 
 // Libs
 import sharp from 'sharp';

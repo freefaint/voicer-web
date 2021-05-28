@@ -1,5 +1,5 @@
 // Env
-import fs from 'fs';
+// import fs from 'fs';
 import path from 'path';
 import http from 'http';
 // import https from 'https';
@@ -16,9 +16,6 @@ import mongoose from 'mongoose';
 import { createApi as createAuthApi } from './api/auth';
 import { createApi as createUsersApi } from './api/users';
 import { createApi as createFilesApi } from './api/files';
-import { createApi as createResumeApi } from './api/resume';
-import { createApi as createVacancyApi } from './api/vacancy';
-import { createApi as createMessagesApi } from './api/messages';
 
 // SSL
 // const privateKey = fs.readFileSync(path.resolve(__dirname + '/../sslcert/server.key'));
@@ -32,8 +29,7 @@ const router = Router();
 
 // Mongoose
 const connect = () => {
-  // mongoose.connect('mongodb://134.0.112.177/pfstore', { useNewUrlParser: true, useUnifiedTopology: true }).catch(connect);
-  mongoose.connect('mongodb://localhost/pfstore', { useNewUrlParser: true, useUnifiedTopology: true }).catch(connect);
+  mongoose.connect('mongodb://localhost/voicer', { useNewUrlParser: true, useUnifiedTopology: true }).catch(connect);
 }
 
 connect();
@@ -79,9 +75,6 @@ app.use(fileUpload({
 createAuthApi(router);
 createUsersApi(router);
 createFilesApi(router);
-createResumeApi(router);
-createVacancyApi(router);
-createMessagesApi(router);
 
 app.use('/', router);
 

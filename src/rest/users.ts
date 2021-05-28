@@ -2,7 +2,7 @@
 import { get, post } from './common';
 
 // Types
-import { IUser } from 'types/users';
+import { IUser } from '../types/users';
 
 export const getItem = (id: string) => {
   return get('/users/' + id);

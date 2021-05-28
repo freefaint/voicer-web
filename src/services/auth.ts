@@ -10,7 +10,7 @@ import * as Storage from '../storage/users';
 
 // Types
 import { IUser } from '../types/users';
-import { sendSMS } from './sms';
+// import { sendSMS } from './sms';
 
 export const me = (req: Request) => {
   if (req.session && req.session.user) {
@@ -90,7 +90,7 @@ export const register = async (data: any) => {
     return Promise.reject({ exist: 'phone' });
   }
 
-  const code = '0000';
+  // const code = '0000';
 
   console.log('try send sms');
 

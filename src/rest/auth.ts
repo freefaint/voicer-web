@@ -2,7 +2,7 @@
 import { get, post, patch } from './common';
 
 // Types
-import { IUser } from 'types/users';
+import { IUser } from '../types/users';
 
 export const login = (data: { login: string; password: string }): Promise<IUser> => {
   return post('/auth', data);

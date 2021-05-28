@@ -1,5 +1,5 @@
 // Types
-import { IUser } from 'types/users';
+import { IUser } from '../types/users';
 
 export const getName = (user: IUser) => {
   const { firstName, lastName, middleName, google, facebook } = user;

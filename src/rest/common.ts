@@ -1,10 +1,6 @@
 // React
 import axios, { AxiosResponse } from 'axios';
 
-// Store
-import { Store } from 'store';
-import { actions } from 'store/actions';
-
 const ORIGIN = document.location && document.location.origin;
 const API_PATH = 'api';
 const VERSION = 'v1';
@@ -26,14 +22,6 @@ const getConfig = () => {
 const responseHandler = (resp: AxiosResponse) => {
   return resp.data;
 };
-
-axios.interceptors.response.use(undefined, e => {
-  if (e.response.status === 401) {
-    Store.dispatch(actions.accessDenied());
-  }
-
-  return Promise.reject(e);
-});
 
 /** HTTP GET */
 export function get(url: string, config?: {}) {

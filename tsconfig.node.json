@@ -25,13 +25,9 @@
   ],
   "exclude": [
     "src/app",
-    "src/common",
     "src/components",
-    "src/assets",
     "src/pages",
     "src/rest",
-    "src/store",
-    "src/styled",
     "src/styles",
     "src/index.tsx",
     "src/react-app-env.d.ts",
