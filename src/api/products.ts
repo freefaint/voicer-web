@@ -30,10 +30,10 @@ export const createApi = (router: Router) => {
   });
   
   router.delete('/api/v1/products/:id', function(req, res) {
-    Storage.removeItem(req.params.id).then(() => null);
+    Storage.removeItem(req.params.id).then(() => res.send(null));
   });
   
   router.delete('/api/v1/products', function(req, res) {
-    Storage.clearItems(req.body).then(() => null);
+    Storage.clearItems(req.body).then(() => res.send(null));
   });
 }
