@@ -90,7 +90,7 @@ export const Cart = ({ cart, onClear, onCount, onRemove, onClose, onOrder }: Pro
 
           <FormControlLabel
             control={
-              <Checkbox checked={ssoboi} onChange={value => setSsoboi(!value)} />
+              <Checkbox value={ssoboi} onChange={value => setSsoboi(!value)} />
             }
             label="Заказ заберу с собой"
           />
