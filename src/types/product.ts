@@ -1,4 +1,5 @@
 export interface Product {
+  user?: string;
   id: string;
   name: string;
   cost: string;

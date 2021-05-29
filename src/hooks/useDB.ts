@@ -14,7 +14,8 @@ export const useDB = <T>(data: T[], source: () => Promise<T[]>) => {
         console.log('no data');
       }
     }, 10000);
-  });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return db;
 }

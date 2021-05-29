@@ -31,11 +31,12 @@ export const me = (req: Request) => {
 }
 
 const combineGoogle = (user: IUser, guser: any): IUser => {
-  return { ...user, google: { name: google.getName(guser), photo: google.getPhoto(guser), email: google.getEmail(guser) } };
+  // return { ...user, google: { name: google.getName(guser), photo: google.getPhoto(guser), email: google.getEmail(guser) } };
+  return { ...user };
 }
 
 const combineFacebook = (user: IUser, guser: any): IUser => {
-  return { ...user, facebook: { name: facebook.getName(guser), photo: facebook.getPhoto(guser), email: facebook.getEmail(guser) } };
+  return { ...user };
 } 
 
 export const gauth = (data: any) => {
@@ -67,7 +68,7 @@ export const register = async (data: any) => {
     phone = '7' + phone;
   }
 
-  console.log(phone);
+  // console.log(phone);
 
   if (phone && phone.length < 11 && phone.length > 0) {
     return Promise.reject({ exist: 'phone' });
@@ -92,14 +93,14 @@ export const register = async (data: any) => {
 
   // const code = '0000';
 
-  console.log('try send sms');
+  // console.log('try send sms');
 
-  if (!data._google && !data._facebook) {
+  // if (!data._google && !data._facebook) {
     // sendSMS(data.phone, 'Код проверки: ' + code);
     // sendSMS(data.phone, code);
-  }
+  // }
 
-  console.log('sms sent');
+  // console.log('sms sent');
 
   return Storage.createItem({ ...data, phone, code: !data._google && !data._facebook && '0000', password: !data._google && !data._facebook && !data.password ? '1234' : data.password }).then(user => user);
 }
@@ -130,6 +131,7 @@ export const login = async (data: any) => {
 
 export const verify = (id: string, data: any) => {
   return Storage.findItem({ _id: id, ...data }).then(() => {
-    Storage.updateItem(id, { verified: true, code: undefined }).then(() => null);
+    Storage.updateItem(id, {  }).then(() => null);
+    // Storage.updateItem(id, { verified: true, code: undefined }).then(() => null);
   })
 }

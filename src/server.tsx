@@ -16,6 +16,7 @@ import mongoose from 'mongoose';
 import { createApi as createAuthApi } from './api/auth';
 import { createApi as createUsersApi } from './api/users';
 import { createApi as createFilesApi } from './api/files';
+import { createApi as createProductsApi } from './api/products';
 
 // Express
 const app = express();
@@ -37,6 +38,7 @@ app.use(passport.session());
 createAuthApi(router);
 createUsersApi(router);
 createFilesApi(router);
+createProductsApi(router);
 
 router.get([ '/*' ], function(req, res) {
   res.sendFile(path.resolve(__dirname + '/../build/index.html'));

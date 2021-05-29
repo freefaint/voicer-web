@@ -5,8 +5,8 @@ import * as AuthService from '../rest/auth';
 export const useAuth = () => {
   const [ user, setUser ] = useState<IUser>();
 
-  const login = useCallback((login: string, password: string) => {
-    AuthService.login({ login, password }).then(setUser);
+  const login = useCallback((user: { login: string, password: string }) => {
+    AuthService.login(user).then(setUser);
   }, []);
 
   const logout = useCallback(() => {
@@ -16,7 +16,7 @@ export const useAuth = () => {
   }, []);
 
   useEffect(() => {
-    AuthService.getUser().then(user => setUser);
+    AuthService.getUser().then(setUser);
   }, []);
 
   return {

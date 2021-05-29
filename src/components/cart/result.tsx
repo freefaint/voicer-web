@@ -13,7 +13,8 @@ export const Result = ({ code, onClose }: Props) => {
 
   useEffect(() => {
     setTimeout(onClose, 30000);
-  });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Paper>

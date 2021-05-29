@@ -1,17 +1,18 @@
 import { createContext, PropsWithChildren, useCallback, useContext, useEffect, useState } from "react";
 
 import { useCommand } from "../hooks/useCommand";
+import { useData } from "../hooks/useData";
 import { useSpeech } from "../hooks/useSpeech";
 import { useTimeout } from "../hooks/useTimeout";
 
-import { Product } from "../types/product";
 import { Shop } from "../types/shop";
 
 import { CartContext } from "./cart.context";
 
 export const ShopContext = createContext<Shop | undefined>(undefined);
 
-export const ShopProvider = ({ children, products }: PropsWithChildren<{ products: Product[] }>) => {
+export const ShopProvider = ({ children, user }: PropsWithChildren<{ user: string }>) => {
+  const { db: products, clearDB, uploadDB, editDB, addDB, removeDB } = useData(user);
   const { seconds, reset } = useTimeout(180);
 
   const [ currentId, setCurrentId ] = useState<string>();
@@ -123,6 +124,11 @@ export const ShopProvider = ({ children, products }: PropsWithChildren<{ product
     add,
     remove,
     setCurrentId,
+    clearDB,
+    uploadDB,
+    removeDB,
+    addDB,
+    editDB,
   }
 
   return (

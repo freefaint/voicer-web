@@ -19,7 +19,13 @@ const useDialogStyles = makeStyles({
   }
 });
 
-export const Shop = () => {
+interface Props {
+  onLogout: () => void;
+  onClearSelectedUser: () => void;
+  admin?: boolean;
+}
+
+export const Shop = ({ admin, onLogout, onClearSelectedUser }: Props) => {
   const [ openedCart, setOpenedCart ] = useState(false);
   const [ openedReady, setOpenedReady ] = useState<string>();
 
@@ -138,6 +144,9 @@ export const Shop = () => {
           onSelectProduct={shop.setCurrentId}
           style={{ transition: "all 200ms ease-out", filter: current || openedCart ? "blur(10px)" : "none" }}
           products={shop.products}
+          admin={admin}
+          onLogout={onClearSelectedUser || onLogout}
+          onUpload={shop.uploadDB}
         />
         
         <CartList

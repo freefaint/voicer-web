@@ -10,4 +10,10 @@ export interface Shop {
   remove: (is: string) => void;
   resetDemoTimer: () => void;
   setCurrentId: (id: string) => void;
+  clearDB: () => void;
+  uploadDB: (products: Product[]) => void;
+  editDB: (product: Product) => void;
+  addDB: (product: Product) => void;
+  removeDB: (product: Product) => void;
+
 }
