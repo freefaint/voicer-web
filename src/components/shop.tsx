@@ -79,7 +79,7 @@ export const Shop = ({ admin, onLogout, onClearSelectedUser }: Props) => {
         onDelete={product => shop?.removeDB(product)}
         onClose={handleClose}
         onSave={handleSave}
-        product={(current || fresh)!}
+        product={(fresh || current)!}
       />
     ) : () => <></>
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -103,7 +103,7 @@ export const Shop = ({ admin, onLogout, onClearSelectedUser }: Props) => {
     const data = cart?.products.map(i => ({ product: shop?.products.filter(j => j.id === i.id)[0], count: i.count }));
     const total = data?.map(i => i.count * parseInt(i.product!.cost)).reduce((a,b) => a + b, 0);
 
-    fetch('https://voice.be-at.ru/mail.php', { method: 'post', body: JSON.stringify({ order: orderNumber, data, total, ssoboi }) });
+    fetch('https://voice.be-at.ru/mail.php', { method: 'post', body: JSON.stringify({ order: orderNumber, data, total, ssoboi: ssoboi ? 1 : 0 }) });
 
     shop?.clear();
 
@@ -125,7 +125,7 @@ export const Shop = ({ admin, onLogout, onClearSelectedUser }: Props) => {
       }}
       
       maxWidth="xl"
-      open={!!current || !!fresh}
+      open={(!!current || !!fresh) && !openedReady}
       onClose={handleClose}
       PaperComponent={props => Paper(props)}
     />
