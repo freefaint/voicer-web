@@ -15,7 +15,7 @@ export const Admin = ({ onLogout, onSelectUser }: { onLogout: () => void, onSele
 
   return (
     <Dialog
-      maxWidth="xl"
+      maxWidth="lg"
       fullWidth={true}
       open={true}
     >
@@ -25,9 +25,9 @@ export const Admin = ({ onLogout, onSelectUser }: { onLogout: () => void, onSele
 
       <Paper>
         <DialogContent>
-          <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", margin: "1rem" }}>
+          <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", margin: "4rem" }}>
             <Autocomplete
-              options={users}
+              options={users.filter(i => !i.admin)}
               disableClearable={true}
               getOptionLabel={i => i.login!}
               renderInput={(props: AutocompleteRenderInputParams) => <TextField placeholder="Выберите пользователя" {...props} />}

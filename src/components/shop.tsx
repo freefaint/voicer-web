@@ -9,6 +9,7 @@ import { CartList } from './cart/list';
 import { ProductCard } from './product/card';
 import { Cart } from './cart/cart';
 import { Result } from './cart/result';
+import { Product } from '../types/product';
 
 const useDialogStyles = makeStyles({
   dialog: {
@@ -21,7 +22,7 @@ const useDialogStyles = makeStyles({
 
 interface Props {
   onLogout: () => void;
-  onClearSelectedUser: () => void;
+  onClearSelectedUser?: () => void;
   admin?: boolean;
 }
 
@@ -36,6 +37,35 @@ export const Shop = ({ admin, onLogout, onClearSelectedUser }: Props) => {
 
   const current = useMemo(() => shop?.products.find(i => i.id === shop?.currentId), [ shop?.products, shop?.currentId ]);
 
+  const [ fresh, setFresh ] = useState<Product>();
+  
+  const handleAdd = useCallback(() => {
+    setFresh({
+      "name": "",
+      "cost": "",
+      "weight": "",
+      "category": "",
+      "age": "",
+      "id": "",
+      "description": "",
+      "textcolor": "",
+      "names": [],
+      "img": ""
+    });
+  }, [setFresh]);
+
+  const handleClose = useCallback(() => {
+    shop?.close();
+  }, [shop]);
+
+  const handleSave = useCallback((product: Product) => {
+    if (product._id) {
+      shop?.addDB(product);
+    } else {
+      shop?.editDB(product);
+    }
+  }, [shop]);
+
   const Paper = useMemo(() => {
     return current && shop ? (props: PaperProps) => (
       <ProductCard
@@ -44,7 +74,8 @@ export const Shop = ({ admin, onLogout, onClearSelectedUser }: Props) => {
         onCount={shop?.count}
         onBuy={(id, count) => shop?.add(id, count)}
         onRemove={id => shop?.remove(id)}
-        onClose={shop?.close}
+        onClose={handleClose}
+        onSave={handleSave}
         product={current}
       />
     ) : () => <></>
@@ -91,12 +122,12 @@ export const Shop = ({ admin, onLogout, onClearSelectedUser }: Props) => {
       }}
       
       maxWidth="xl"
-      open={!!current}
-      onClose={shop.close}
+      open={!!current || !!fresh}
+      onClose={handleClose}
       PaperComponent={props => Paper(props)}
     />
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  ), [cart, classes.dialog, current, Paper]);
+  ), [cart, classes.dialog, current, fresh, Paper]);
 
   const cartDialog = useMemo(() => cart && shop && (
     <Dialog
@@ -135,7 +166,7 @@ export const Shop = ({ admin, onLogout, onClearSelectedUser }: Props) => {
   if (!shop || !cart) {
     return null;
   }
-  
+
   return (
     <>
       <div style={{ display: "flex", height: "100vh", padding: "2rem 0 2rem 2rem", boxSizing: "border-box", backgroundColor: "#eee" }}>
@@ -146,7 +177,9 @@ export const Shop = ({ admin, onLogout, onClearSelectedUser }: Props) => {
           products={shop.products}
           admin={admin}
           onLogout={onClearSelectedUser || onLogout}
+          onAdd={handleAdd}
           onUpload={shop.uploadDB}
+          onClear={shop.clearDB}
         />
         
         <CartList

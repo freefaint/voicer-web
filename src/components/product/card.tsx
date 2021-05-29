@@ -34,6 +34,7 @@ interface Props {
   onRemove: (id: string) => void;
   onCount: (id: string, count: number) => void;
   onClose?: () => void;
+  onSave: (product: Product) => void;
 }
 
 export const ProductCard = ({ product, onBuy, onRemove, onCount, onClose, onPointerMove, cart, ref, ...rest }: Props & PaperProps) => {

@@ -20,6 +20,8 @@ export const ShopProvider = ({ children, user }: PropsWithChildren<{ user: strin
   const speech = useSpeech();
   const cart = useContext(CartContext);
 
+  // console.log('SHOP INIT');
+
   const close = useCallback(() => {
     reset();
     setCurrentId(undefined);
@@ -129,7 +131,7 @@ export const ShopProvider = ({ children, user }: PropsWithChildren<{ user: strin
     removeDB,
     addDB,
     editDB,
-  }
+  };
 
   return (
     <ShopContext.Provider value={context}>

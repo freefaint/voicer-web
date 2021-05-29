@@ -30,7 +30,7 @@ export const CartProvider = ({ children }: PropsWithChildren<{}>) => {
     setProducts([]);
   }, [ setProducts ]);
 
-  console.log(products);
+  // console.log(products);
 
   const context = {
     products,

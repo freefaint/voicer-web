@@ -87,7 +87,7 @@ export const register = async (data: any) => {
   }
 
   if (existPhone) {
-    console.log('conflict phone');
+    // console.log('conflict phone');
     return Promise.reject({ exist: 'phone' });
   }
 

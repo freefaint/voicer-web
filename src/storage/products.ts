@@ -14,7 +14,7 @@ const schema = new mongoose.Schema({
   age: String,
   description: String,
   textcolor: String,
-  names: String,
+  names: Array,
   img: String,
 });
 

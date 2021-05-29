@@ -6,7 +6,7 @@ export const SpeechContext = createContext<Speech | undefined>(undefined);
 
 export const SpeechProvider = ({ children }: PropsWithChildren<{}>) => {
   const [ result, setResult ] = useState<Speech>();
-
+  console.log('SPEECH INIT');
   useEffect(() => {
     // @ts-ignore
     const voice = new webkitSpeechRecognition();

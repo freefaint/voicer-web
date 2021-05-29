@@ -13,22 +13,22 @@ function App() {
   const { user, login, logout } = useAuth();
   const [ selectedUser, setSelectedUser ] = useState<string>();
 
-  if (!user) {
-    return (
-      <Login onLogin={login} />
-    )
-  }
-
-  if (user.admin && !selectedUser) {
-    return <Admin onSelectUser={setSelectedUser} onLogout={logout} />
-  }
-
   return (
     <SpeechProvider>
       <CartProvider>
-        <ShopProvider user={selectedUser || user._id!}>
-          <Shop admin={user.admin} onClearSelectedUser={() => setSelectedUser(undefined)} onLogout={logout} />
-        </ShopProvider>
+        {!user && (
+          <Login onLogin={login} />
+        )}
+
+        {user?.admin && !selectedUser && (
+          <Admin onSelectUser={setSelectedUser} onLogout={logout} />
+        )}
+
+        {user && (!user.admin || selectedUser) && (
+          <ShopProvider user={selectedUser || user._id!}>
+            <Shop admin={user.admin} onClearSelectedUser={user.admin ? (() => setSelectedUser(undefined)) : undefined} onLogout={logout} />
+          </ShopProvider>
+        )}
       </CartProvider>
     </SpeechProvider>
   );

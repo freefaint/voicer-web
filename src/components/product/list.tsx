@@ -14,9 +14,11 @@ interface Props extends React.HTMLProps<HTMLDivElement> {
   onLogout: () => void;
   onSelectProduct: (id: string) => void;
   onUpload: (products: Product[]) => void;
+  onAdd: () => void;
+  onClear: () => void;
 }
 
-export const ProductList = ({ admin, products, style, onLogout, onCommand, onSelectProduct, onUpload }: Props) => {
+export const ProductList = ({ admin, products, style, onLogout, onAdd, onClear, onCommand, onSelectProduct, onUpload }: Props) => {
   const container = useRef<HTMLDivElement | null>(null);
 
   useCommand('вниз', () => {
@@ -36,10 +38,6 @@ export const ProductList = ({ admin, products, style, onLogout, onCommand, onSel
     onCommand();
     container.current.scrollTop = container.current.scrollTop - container.current.clientHeight;
   });
-
-  const handleClear = useCallback(() => {
-
-  }, []);
 
   const handleImport = useCallback(() => {
     ref.current?.click();
@@ -71,7 +69,8 @@ export const ProductList = ({ admin, products, style, onLogout, onCommand, onSel
         <div style={{ display: "flex", justifyContent: "center" }}>
           {admin && (
             <div style={{ display: "flex" }}>
-              <Button onClick={handleClear}>Очистить базу</Button>
+              <Button color="primary" onClick={onAdd}>Добавить товар</Button>
+              <Button color="secondary" onClick={onClear}>Очистить базу</Button>
               <Button onClick={handleImport}>Импортировать</Button>
               <input ref={ref} style={{ visibility: "hidden" }} type="file" onChange={handleChange} />
             </div>
