@@ -55,3 +55,11 @@ export const updateItem = (id: string, data: Product) => {
 export const removeItem = (id: string) => {
   return model.findByIdAndDelete(id).then(() => null);
 };
+
+export const putItems = (data: Product[]) => {
+  return model.insertMany(data).then(() => null);
+};
+
+export const clearItems = (data: Product[]) => {
+  return model.deleteMany(data).then(() => null);
+};

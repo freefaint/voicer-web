@@ -15,8 +15,8 @@ export const useData = (user: string) => {
   }, [ user ]);
 
   const uploadDB = useCallback((data: Product[]) => {
-    ProductsService.findItems({ user }).then(setDb);
-  }, [ user ]);
+    ProductsService.putItems(data).then(getDB);
+  }, [ getDB ]);
 
   const editDB = useCallback((product: Partial<Product>) => {
     ProductsService.findItems({ user }).then(setDb);
