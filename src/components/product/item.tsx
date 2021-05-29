@@ -4,9 +4,11 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
+import CloseIcon from '@material-ui/icons/CloseRounded';
 
 import { Product } from "../../types/product";
-import { useCallback } from 'react';
+import { SyntheticEvent, useCallback } from 'react';
+import { Fab } from '@material-ui/core';
 
 const useStyles = makeStyles({
   media: {
@@ -14,10 +16,15 @@ const useStyles = makeStyles({
   },
 });
 
-export const ProductItem = ({ product, onSelect }: { product: Product, onSelect: (id: string) => void }) => {
+export const ProductItem = ({ product, admin, onRemove, onSelect }: { admin?: boolean; product: Product, onRemove: (product: Product) => void; onSelect: (id: string) => void }) => {
   const classes = useStyles();
 
   const handleClick = useCallback(() => onSelect(product.id), [onSelect, product.id]);
+
+  const handleRemove = useCallback((e: SyntheticEvent) => {
+    e.stopPropagation();
+    onRemove(product);
+  }, [onRemove, product]);
 
   return (
     <div style={{ margin: "0 2rem 2rem 0" }}>
@@ -27,7 +34,13 @@ export const ProductItem = ({ product, onSelect }: { product: Product, onSelect:
             className={classes.media}
             image={product.img}
             title={product.name}
-          />
+          >
+            {admin && (
+              <Fab color="secondary" onClick={handleRemove} style={{ position: "absolute", top: "1rem", right: "1rem"}}>
+                <CloseIcon />
+              </Fab>
+            )}
+          </CardMedia>
           <CardContent>
             <Typography gutterBottom variant="body2" component="h2">
               {product.name}

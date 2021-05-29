@@ -1,5 +1,5 @@
 // Rest
-import { get, post, put, del } from './common';
+import { get, post, patch, put, del } from './common';
 
 // Types
 import { Product } from '../types/product';
@@ -25,7 +25,7 @@ export const putItems = (data: Product[]) => {
 }
 
 export const patchItem = (data: Partial<Product>) => {
-  return put(`/products/${data._id}`, data);
+  return patch(`/products/${data._id}`, data);
 }
 
 export const removeItem = (id: string) => {

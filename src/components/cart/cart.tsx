@@ -1,6 +1,7 @@
-import { createStyles, DialogContent, Fab, Grid, makeStyles, Paper, Theme, Typography } from "@material-ui/core";
+import { Checkbox, createStyles, DialogContent, Fab, FormControlLabel, Grid, makeStyles, Paper, Theme, Typography } from "@material-ui/core";
 import { ClearRounded, ShoppingCart } from "@material-ui/icons";
 import CloseIcon from '@material-ui/icons/CloseRounded';
+import { useCallback, useState } from "react";
 import { useCommand } from "../../hooks/useCommand";
 
 import { Product } from "../../types/product";
@@ -22,7 +23,7 @@ interface Props {
 
   onRemove: (id: string) => void;
   onCount: (id: string, count: number) => void;
-  onOrder: () => void;
+  onOrder: (ssoboi?: boolean) => void;
   onClear: () => void;
   onClose: () => void;
 }
@@ -30,8 +31,14 @@ interface Props {
 export const Cart = ({ cart, onClear, onCount, onRemove, onClose, onOrder }: Props) => {
   const buttonClasses = useButtonStyles();
 
-  useCommand('Отправить', onOrder);
-  useCommand('Оформить заказ', onOrder);
+  const [ ssoboi, setSsoboi ] = useState(false);
+
+  const handleOrder = useCallback(() => {
+    onOrder(ssoboi);
+  }, [ssoboi, onOrder]);
+
+  useCommand('Отправить', handleOrder);
+  useCommand('Оформить заказ', handleOrder);
 
   return (
     <Paper>
@@ -80,9 +87,16 @@ export const Cart = ({ cart, onClear, onCount, onRemove, onClose, onOrder }: Pro
               </Grid>
             </Grid>
           </div>
-            
+
+          <FormControlLabel
+            control={
+              <Checkbox checked={ssoboi} onChange={value => setSsoboi(!value)} />
+            }
+            label="Заказ заберу с собой"
+          />
+               
           <div style={{ display: "flex", justifyContent: "space-between", marginTop: "2rem" }}>
-            <Fab color="secondary" variant="extended" onClick={onOrder}>
+            <Fab color="secondary" variant="extended" onClick={handleOrder}>
               <ShoppingCart className={buttonClasses.extendedIcon} />
               Оформить заказ
             </Fab>

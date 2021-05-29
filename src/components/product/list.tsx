@@ -16,9 +16,10 @@ interface Props extends React.HTMLProps<HTMLDivElement> {
   onUpload: (products: Product[]) => void;
   onAdd: () => void;
   onClear: () => void;
+  onRemove: (product: Product) => void;
 }
 
-export const ProductList = ({ admin, products, style, onLogout, onAdd, onClear, onCommand, onSelectProduct, onUpload }: Props) => {
+export const ProductList = ({ admin, products, style, onLogout, onRemove, onAdd, onClear, onCommand, onSelectProduct, onUpload }: Props) => {
   const container = useRef<HTMLDivElement | null>(null);
 
   useCommand('вниз', () => {
@@ -48,11 +49,16 @@ export const ProductList = ({ admin, products, style, onLogout, onAdd, onClear, 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const fileReader = new FileReader();
     fileReader.readAsText(e.target.files![0], "UTF-8");
-    fileReader.onload = e => {
+    fileReader.onload = ev => {
       try {
-        const json = JSON.parse(e.target?.result as string);
+        const json = JSON.parse(ev.target?.result as string);
 
         onUpload(json);
+        
+        if (ref.current) {
+          // @ts-ignore
+          ref.current.value = '';
+        }
       } catch {
         console.log('UPLOAD ERROR, CHECK JSON');
       }
@@ -72,7 +78,7 @@ export const ProductList = ({ admin, products, style, onLogout, onAdd, onClear, 
               <Button color="primary" onClick={onAdd}>Добавить товар</Button>
               <Button color="secondary" onClick={onClear}>Очистить базу</Button>
               <Button onClick={handleImport}>Импортировать</Button>
-              <input ref={ref} style={{ visibility: "hidden" }} type="file" onChange={handleChange} />
+              <input key={products.length} ref={ref} style={{ visibility: "hidden" }} type="file" onChange={handleChange} />
             </div>
           )}
           <Fab color="secondary" onClick={onLogout} style={{ position: "absolute", top: "1rem", right: "1rem"}}>
@@ -85,7 +91,7 @@ export const ProductList = ({ admin, products, style, onLogout, onAdd, onClear, 
         <Grid container spacing={0} style={{ margin: "none" }}>
           {products.map(product => (
             <Grid key={product.id} xs={3}>
-              <ProductItem product={product} onSelect={onSelectProduct} />
+              <ProductItem admin={admin} onRemove={onRemove} product={product} onSelect={onSelectProduct} />
             </Grid>
           ))}
         </Grid>

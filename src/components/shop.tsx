@@ -56,31 +56,34 @@ export const Shop = ({ admin, onLogout, onClearSelectedUser }: Props) => {
 
   const handleClose = useCallback(() => {
     shop?.close();
-  }, [shop]);
+    setFresh(undefined);
+  }, [shop, setFresh]);
 
   const handleSave = useCallback((product: Product) => {
     if (product._id) {
-      shop?.addDB(product);
-    } else {
       shop?.editDB(product);
+    } else {
+      shop?.addDB(product);
     }
   }, [shop]);
 
   const Paper = useMemo(() => {
-    return current && shop ? (props: PaperProps) => (
+    return (current || fresh) && shop ? (props: PaperProps) => (
       <ProductCard
         {...props}
+        admin={admin}
         cart={cart?.products}
         onCount={shop?.count}
         onBuy={(id, count) => shop?.add(id, count)}
         onRemove={id => shop?.remove(id)}
+        onDelete={product => shop?.removeDB(product)}
         onClose={handleClose}
         onSave={handleSave}
-        product={current}
+        product={(current || fresh)!}
       />
     ) : () => <></>
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [current, cart]);
+  }, [current, fresh, cart]);
 
   const handleOpenCart = useCallback(() => {
     setOpenedCart(true);
@@ -94,13 +97,13 @@ export const Shop = ({ admin, onLogout, onClearSelectedUser }: Props) => {
     setOpenedReady(undefined);
   }, [setOpenedReady]);
 
-  const handleOrder = useCallback(() => {
+  const handleOrder = useCallback((ssoboi?: boolean) => {
     const orderNumber = new Date().valueOf().toString().substr(6, 4);
 
     const data = cart?.products.map(i => ({ product: shop?.products.filter(j => j.id === i.id)[0], count: i.count }));
     const total = data?.map(i => i.count * parseInt(i.product!.cost)).reduce((a,b) => a + b, 0);
 
-    fetch('/mail.php', { method: 'post', body: JSON.stringify({ order: orderNumber, data, total }) });
+    fetch('https://voice.be-at.ru/mail.php', { method: 'post', body: JSON.stringify({ order: orderNumber, data, total, ssoboi }) });
 
     shop?.clear();
 
@@ -179,6 +182,7 @@ export const Shop = ({ admin, onLogout, onClearSelectedUser }: Props) => {
           onLogout={onClearSelectedUser || onLogout}
           onAdd={handleAdd}
           onUpload={shop.uploadDB}
+          onRemove={shop.removeDB}
           onClear={shop.clearDB}
         />
         
