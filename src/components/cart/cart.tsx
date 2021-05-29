@@ -47,7 +47,7 @@ export const Cart = ({ cart, onClear, onCount, onRemove, onClose, onOrder }: Pro
       </Fab>
 
       <DialogContent>
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", margin: "2rem" }}>
           <Typography gutterBottom variant="h2" component="h2">
             Корзина
           </Typography>
