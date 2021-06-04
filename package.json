@@ -51,9 +51,13 @@
     "start": "react-scripts start",
     "back": "nodemon server/server.js",
     "prod": "pm2 start pm2.config.js",
+    "printer": "npm run server/printer.js",
     "build": "npm run build:front && npm run build:back",
     "build:front": "react-scripts build",
-    "build:back": "tsc -p tsconfig.node.json"
+    "build:back": "tsc -p tsconfig.node.json",
+    "build:printer": "npm run printer:fix && npm run build:back",
+    "printer:fix": "cp -f ./escpos.statuses.js.fix ./node_modules/escpos/statuses.js"
+    
   },
   "eslintConfig": {
     "extends": "react-app"

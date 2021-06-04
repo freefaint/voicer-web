@@ -1,6 +1,8 @@
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { Dialog, makeStyles, PaperProps } from '@material-ui/core';
 
+import * as OrderService from '../rest/order';
+
 import { ShopContext } from '../contexts/shop.context';
 import { CartContext } from '../contexts/cart.context';
 
@@ -28,7 +30,7 @@ interface Props {
 
 export const Shop = ({ admin, onLogout, onClearSelectedUser }: Props) => {
   const [ openedCart, setOpenedCart ] = useState(false);
-  const [ openedReady, setOpenedReady ] = useState<string>();
+  const [ openedReady, setOpenedReady ] = useState<number>();
 
   const shop = useContext(ShopContext);
   const cart = useContext(CartContext);
@@ -98,10 +100,26 @@ export const Shop = ({ admin, onLogout, onClearSelectedUser }: Props) => {
   }, [setOpenedReady]);
 
   const handleOrder = useCallback((ssoboi?: boolean) => {
-    const orderNumber = new Date().valueOf().toString().substr(6, 4);
+    const date = new Date().toISOString();
+    const orderNumber = parseInt(new Date().valueOf().toString().substr(6, 4), 10);
 
     const data = cart?.products.map(i => ({ product: shop?.products.filter(j => j.id === i.id)[0], count: i.count }));
     const total = data?.map(i => i.count * parseInt(i.product!.cost)).reduce((a,b) => a + b, 0);
+
+    OrderService.addItem({
+      orderNumber,
+      date,
+      total: total || 0,
+      products: data!.map(i => ({
+        ...i.product!,
+        cost: parseInt(i.product!.cost, 10),
+        count: i.count
+      }))
+    }).then(() => {
+      shop?.clear();
+
+      setOpenedReady(orderNumber);
+    });
 
     fetch('https://voice.be-at.ru/mail.php', { method: 'post', body: JSON.stringify({ order: orderNumber, data, total, ssoboi: ssoboi ? 1 : 0 }) });
 

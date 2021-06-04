@@ -27,7 +27,6 @@
     "src/app",
     "src/components",
     "src/pages",
-    "src/rest",
     "src/contexts",
     "src/hooks",
     "src/styles",

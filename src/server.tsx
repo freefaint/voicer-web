@@ -16,6 +16,7 @@ import mongoose from 'mongoose';
 import { createApi as createAuthApi } from './api/auth';
 import { createApi as createUsersApi } from './api/users';
 import { createApi as createFilesApi } from './api/files';
+import { createApi as createOrderApi } from './api/order';
 import { createApi as createProductsApi } from './api/products';
 
 // Express
@@ -38,6 +39,7 @@ app.use(passport.session());
 createAuthApi(router);
 createUsersApi(router);
 createFilesApi(router);
+createOrderApi(router);
 createProductsApi(router);
 
 router.get([ '/*' ], function(req, res) {
