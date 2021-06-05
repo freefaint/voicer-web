@@ -78,6 +78,7 @@ device.open(function(error: any) {
   .text('')
   .text('')
   .text('')
+  .encode("windows1251")
   .cut()
   .close()
   // .barcode('1234567', 'EAN8')
