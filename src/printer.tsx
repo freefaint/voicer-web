@@ -10,7 +10,7 @@ const device  = new USB();
 // const device  = new escpos.Network('localhost');
 // const device  = new escpos.Serial('/dev/usb/lp0');
 
-const options = { encoding: "cp866" /* default */ }
+const options = { encoding: "windows1251" /* default */ }
 // const options = { encoding: "windows1251" /* default */ }
 // encoding is optional
 
@@ -30,14 +30,14 @@ const getLatest = () => {
       // .align('CT')
       // .style('BU')
       // .size(1, 1)
-      .text('Р—Р°РєР°Р· в„– ' + item.orderNumber + (item.export ? ' СЃ СЃРѕР±РѕР№' : ''))
-      .text('Р”Р°С‚Р° Р·Р°РєР°Р·Р° ' + new Date(item.date).toLocaleString())
+      .text('Заказ № ' + item.orderNumber + (item.export ? ' с собой' : ''))
+      .text('Дата заказа ' + new Date(item.date).toLocaleString())
       .text('')
-      .text(item.products.map(i => i.name.concat('...x', i.count.toString(), '...', i.cost.toString(), 'СЂСѓР±.')).join("\r\n"))
+      .text(item.products.map(i => i.name.concat('...x', i.count.toString(), '...', i.cost.toString(), 'руб.')).join("\r\n"))
       .text('')
-      .text('РС‚РѕРіРѕ: ' + item.total + ' СЂСѓР±.')
+      .text('Итого: ' + item.total + ' руб.')
       .text('')
-      // .text('РўРµСЂРјРёРЅР°Р»С‹ СЃР°РјРѕРѕР±СЃР»СѓР¶РёРІР°РЅРёСЏ СЃ РіРѕР»РѕСЃРѕРІС‹Рј РјРѕРґСѓР»РµРј voice-shop.ru С‚РµР». +7 (929) 632 5522')
+      // .text('Терминалы самообслуживания с голосовым модулем voice-shop.ru тел. +7 (929) 632 5522')
       // .qrimage('https://freefaint.ru', function(err){
       //   printer.cut();
       //   printer.close();
@@ -61,7 +61,7 @@ let result = encoder
     .text('The quick brown fox jumps over the lazy dog')
     .newline()
     .codepage('windows1251')
-    .text('РџСЂРёРІРµС‚')
+    .text('Привет')
     // .qrcode('https://nielsleenheer.com')
     .encode();
 
@@ -72,9 +72,9 @@ device.open(function(error: any) {
   .style('BU')
   .size(1, 1)
   .style('NORMAL')
-  .encode("cp866")
-  .print("С„С„С„")
-  .text("С‹С„С„С„")
+  .encode("windows1251")
+  .print("ффф")
+  .text("ыффф")
   .text('')
   .text('')
   .text('')
