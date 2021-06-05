@@ -1,7 +1,7 @@
 // React
 import axios, { AxiosResponse } from 'axios';
 
-const ORIGIN = document.location && document.location.origin;
+const ORIGIN = document ? document.location && document.location.origin : 'https://freefaint.ru';
 const API_PATH = 'api';
 const VERSION = 'v1';
 const BASE_URL = `${ORIGIN}/${API_PATH}/${VERSION}`;
