@@ -29,8 +29,6 @@ const getLatest = () => {
         .align('CT')
         .style('NORMAL')
         .size(1, 1)
-        .barcode(item.orderNumber.toString(), 'EAN8')
-        .text('')
         .text('Заказ № ' + item.orderNumber + (item.export ? ' с собой' : ''))
         .text('Дата ' + new Date(item.date).toLocaleString())
         .text('');
