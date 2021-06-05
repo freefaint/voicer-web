@@ -32,15 +32,15 @@ const getLatest = () => {
         .text('Заказ № ' + item.orderNumber + (item.export ? ' с собой' : ''))
         .text('Дата ' + new Date(item.date).toLocaleString())
         .text('')
-        .table(["Имя", "Кол-во", "Цена"]);
+        .table(["Имя / Кол-во", "Цена"]);
         
       item.products.forEach(i => {
         printer
-          .table([i.name, 'x' + i.count, i.cost.toString() ]);
+          .table([i.name + ' / x' + i.count, i.cost.toString() ]);
       });
       
       printer
-        .text(item.products.map(i => i.name.concat('...x', i.count.toString(), '...', i.cost.toString(), 'руб.')).join("\r\n"))
+        // .text(item.products.map(i => i.name.concat('...x', i.count.toString(), '...', i.cost.toString(), 'руб.')).join("\r\n"))
         .text('')
         .text('Итого: ' + item.total + ' руб.')
         .text('')
