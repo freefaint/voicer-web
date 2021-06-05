@@ -26,10 +26,10 @@ const getLatest = () => {
 
     device.open(function(error: any) {
       printer
-      // .font('A')
-      // .align('CT')
-      // .style('BU')
-      // .size(1, 1)
+      .font('B')
+      .align('CT')
+      .style('NORMAL')
+      .size(1, 1)
       .text('Заказ № ' + item.orderNumber + (item.export ? ' с собой' : ''))
       .text('Дата заказа ' + new Date(item.date).toLocaleString())
       .text('')
@@ -37,33 +37,20 @@ const getLatest = () => {
       .text('')
       .text('Итого: ' + item.total + ' руб.')
       .text('')
-      // .text('Терминалы самообслуживания с голосовым модулем voice-shop.ru тел. +7 (929) 632 5522')
-      // .qrimage('https://freefaint.ru', function(err){
-      //   printer.cut();
-      //   printer.close();
-      // });
+      .text('')
+      .qrimage('https://freefaint.ru')
+      .text('Терминалы самообслуживания с голосовым модулем voice-shop.ru тел. +7 (929) 632 5522')
+      .cut()
+      .close()
     });
 
     latest = item;
   });
 }
 
-// getLatest();
+getLatest();
 
-// setInterval(getLatest, 5000);
-
-
-
-let encoder = new EscPosEncoder();
-
-let result = encoder
-    .initialize()
-    .text('The quick brown fox jumps over the lazy dog')
-    .newline()
-    .codepage('windows1251')
-    .text('Привет')
-    // .qrcode('https://nielsleenheer.com')
-    .encode();
+setInterval(getLatest, 5000);
 
 device.open(function(error: any) {
   printer
