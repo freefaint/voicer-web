@@ -10,7 +10,7 @@ const device  = new USB();
 // const device  = new escpos.Network('localhost');
 // const device  = new escpos.Serial('/dev/usb/lp0');
 
-const options = { encoding: "cp866" /* default */ }
+const options = { encoding: "windows1251" /* default */ }
 // const options = { encoding: "windows1251" /* default */ }
 // encoding is optional
 
@@ -30,14 +30,14 @@ const getLatest = () => {
       // .align('CT')
       // .style('BU')
       // .size(1, 1)
-      .text('á†™†ß ¸ ' + item.orderNumber + (item.export ? ' · ·Æ°Æ©' : ''))
-      .text('Ñ†‚† ß†™†ß† ' + new Date(item.date).toLocaleString())
+      .text('–ó–∞–∫–∞–∑ ‚Ññ ' + item.orderNumber + (item.export ? ' —Å —Å–æ–±–æ–π' : ''))
+      .text('–î–∞—Ç–∞ –∑–∞–∫–∞–∑–∞ ' + new Date(item.date).toLocaleString())
       .text('')
-      .text(item.products.map(i => i.name.concat('...x', i.count.toString(), '...', i.cost.toString(), '‡„°.')).join("\r\n"))
+      .text(item.products.map(i => i.name.concat('...x', i.count.toString(), '...', i.cost.toString(), '—Ä—É–±.')).join("\r\n"))
       .text('')
-      .text('à‚Æ£Æ: ' + item.total + ' ‡„°.')
+      .text('–ò—Ç–æ–≥–æ: ' + item.total + ' —Ä—É–±.')
       .text('')
-      // .text('í•‡¨®≠†´Î ·†¨ÆÆ°·´„¶®¢†≠®Ô · £Æ´Æ·Æ¢Î¨ ¨Æ§„´•¨ voice-shop.ru ‚•´. +7 (929) 632 5522')
+      // .text('–¢–µ—Ä–º–∏–Ω–∞–ª—ã —Å–∞–º–æ–æ–±—Å–ª—É–∂–∏–≤–∞–Ω–∏—è —Å –≥–æ–ª–æ—Å–æ–≤—ã–º –º–æ–¥—É–ª–µ–º voice-shop.ru —Ç–µ–ª. +7 (929) 632 5522')
       // .qrimage('https://freefaint.ru', function(err){
       //   printer.cut();
       //   printer.close();
@@ -61,7 +61,7 @@ let result = encoder
     .text('The quick brown fox jumps over the lazy dog')
     .newline()
     .codepage('windows1251')
-    .text('è‡®¢•‚')
+    .text('–ü—Ä–∏–≤–µ—Ç')
     // .qrcode('https://nielsleenheer.com')
     .encode();
 
@@ -72,11 +72,13 @@ device.open(function(error: any) {
   .style('BU')
   .size(1, 1)
   .style('NORMAL')
-  .encode("cp866")
-  .text("è‡®¢•‚")
+  .encode("windows1251")
+  .print("—Ñ—Ñ—Ñ")
+  .text("—ã—Ñ—Ñ—Ñ")
   .text('')
   .text('')
   .text('')
+  .encode('windows1251')
   .cut()
   .close()
   // .barcode('1234567', 'EAN8')
