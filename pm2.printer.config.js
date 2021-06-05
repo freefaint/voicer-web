@@ -1,8 +1,8 @@
 module.exports = {
   apps : [
     {
-      name: "voicer",
-      script: "./server/server.js",
+      name: "printer",
+      script: "./server/printer.js",
       watch: true,
 
       env: {

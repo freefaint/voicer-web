@@ -77,4 +77,4 @@ device.open(function(error: any) {
     printer.cut();
     printer.close();
   });
-});`
+});
