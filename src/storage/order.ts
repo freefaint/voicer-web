@@ -37,7 +37,7 @@ export const getItem = async (id: string) => {
 };
 
 export const getLatest = async () => {
-  return model.findOne({created_at: -1}).then(user => safe(user));
+  return model.findOne().sort({date: -1}).then(user => safe(user));
 };
 
 export const findItem = async (data: {}) => {
