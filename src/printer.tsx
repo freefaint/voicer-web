@@ -31,17 +31,16 @@ const getLatest = () => {
         .size(1, 1)
         .text('Заказ № ' + item.orderNumber + (item.export ? ' с собой' : ''))
         .text('Дата ' + new Date(item.date).toLocaleString())
-        .text('');
-
+        .text('')
+        .table(["Имя", "Кол-во", "Цена"]);
+        
       item.products.forEach(i => {
         printer
-          .text(item.products.map(i => i.name.concat('...x', i.count.toString(), '...', i.cost.toString(), 'руб.')).join("\r\n"))
-          .tableCustom({ text: i.name, align:"LEFT", width: 0.33 })
-          .tableCustom({ text: 'x' + i.count, align:"RIGHT", width: 0.33 })
-          .tableCustom({ text: i.cost.toString(), align:"RIGHT", width: 0.33 })
+          .table([i.name, 'x' + i.count, i.cost.toString() ]);
       });
       
       printer
+        .text(item.products.map(i => i.name.concat('...x', i.count.toString(), '...', i.cost.toString(), 'руб.')).join("\r\n"))
         .text('')
         .text('Итого: ' + item.total + ' руб.')
         .text('')
