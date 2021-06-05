@@ -1,8 +1,8 @@
 import escpos from 'escpos';
 // install escpos-usb adapter module manually
 import USB from 'escpos-usb';
-import * as OrderService from 'rest/order';
-import { Order } from 'types/order';
+import * as OrderService from './rest/order';
+import { Order } from './types/order';
 // Select the adapter based on your printer type
 const device  = new USB();
 // const device  = new escpos.Network('localhost');
