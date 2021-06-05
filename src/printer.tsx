@@ -10,7 +10,7 @@ const device  = new USB();
 // const device  = new escpos.Network('localhost');
 // const device  = new escpos.Serial('/dev/usb/lp0');
 
-const options = { encoding: "windows1251" /* default */ }
+const options = { encoding: "cp866" /* default */ }
 // const options = { encoding: "windows1251" /* default */ }
 // encoding is optional
 
@@ -72,13 +72,13 @@ device.open(function(error: any) {
   .style('BU')
   .size(1, 1)
   .style('NORMAL')
-  .encode("windows1251")
+  .encode("cp866")
   .print("ффф")
   .text("ыффф")
   .text('')
   .text('')
   .text('')
-  .encode('windows1251')
+  .encode('cp866')
   .cut()
   .close()
   // .barcode('1234567', 'EAN8')
