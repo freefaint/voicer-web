@@ -60,6 +60,7 @@ let result = encoder
     .initialize()
     .text('The quick brown fox jumps over the lazy dog')
     .newline()
+    .codepage('windows1251')
     .text('Привет')
     // .qrcode('https://nielsleenheer.com')
     .encode();
