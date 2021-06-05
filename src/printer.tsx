@@ -58,26 +58,23 @@ setInterval(getLatest, 5000);
 
 
 
-// device.open(function(error: any) {
-//   printer
-//   .font('A')
-//   .align('CT')
-//   .style('BU')
-//   .size(1, 1)
-//   .text('The quick brown fox jumps over the lazy dog')
-//   .text('hello')
-//   .barcode('1234567', 'EAN8')
-//   .table(["One", "Two", "Three"])
-//   // .tableCustom([
-//   //   { text:"Left", align:"LEFT", width:0.33 },
-//   //   { text:"Center", align:"CENTER", width:0.33},
-//   //   { text:"Right", align:"RIGHT", width:0.33 }
-//   // ])
-//   .qrimage('https://github.com/song940/node-escpos', function(err){
-//     printer.cut();
-//     printer.close();
-//   });
-// });
-
-
-
+device.open(function(error: any) {
+  printer
+  .font('A')
+  .align('CT')
+  .style('BU')
+  .size(1, 1)
+  .text('The quick brown fox jumps over the lazy dog')
+  .text('hello')
+  .barcode('1234567', 'EAN8')
+  .table(["One", "Two", "Three"])
+  // .tableCustom([
+  //   { text:"Left", align:"LEFT", width:0.33 },
+  //   { text:"Center", align:"CENTER", width:0.33},
+  //   { text:"Right", align:"RIGHT", width:0.33 }
+  // ])
+  .qrimage('https://github.com/song940/node-escpos', function(err){
+    printer.cut();
+    printer.close();
+  });
+});`
