@@ -126,7 +126,8 @@ export const Shop = ({ admin, onLogout, onClearSelectedUser }: Props) => {
 
       fetch('https://voice.be-at.ru/mail.php', { method: 'post', body: JSON.stringify({ order: orderNumber, data, total, ssoboi: ssoboi ? 1 : 0 }) });
     });
-  }, [ shop, cart ]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ JSON.stringify(cart?.products) ]);
 
   useEffect(() => {
     if (!cart?.products.length) {
