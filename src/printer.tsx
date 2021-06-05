@@ -10,7 +10,7 @@ const device  = new USB();
 // const device  = new escpos.Network('localhost');
 // const device  = new escpos.Serial('/dev/usb/lp0');
 
-const options = { encoding: "GB18030" /* default */ }
+const options = { encoding: "windows1251" /* default */ }
 // const options = { encoding: "windows1251" /* default */ }
 // encoding is optional
 
@@ -67,11 +67,13 @@ let result = encoder
 
 device.open(function(error: any) {
   printer
-  // .font('A')
-  // .align('CT')
-  // .style('BU')
-  // .size(1, 1)
+  .font('A')
+  .align('CT')
+  .style('BU')
+  .size(1, 1)
   .text('The quick brown fox jumps over the lazy dog')
+  .font('B')
+  .style('NORMAL')
   .print(result)
   .cut()
   .close()
