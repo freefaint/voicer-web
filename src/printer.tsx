@@ -19,6 +19,10 @@ let latest: Order | null = null;
 
 const getLatest = () => {
   OrderService.getLatest().then(item => {
+    console.log(latest);
+
+    console.log(item);
+    
     if (item._id === latest?._id) {
       return;
     }
