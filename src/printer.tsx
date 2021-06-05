@@ -1,7 +1,6 @@
 import escpos from 'escpos';
 // install escpos-usb adapter module manually
 import USB from 'escpos-usb';
-import EscPosEncoder from 'esc-pos-encoder';
 
 import * as OrderService from './rest/order';
 import { Order } from './types/order';
@@ -26,22 +25,33 @@ const getLatest = () => {
 
     device.open(function(error: any) {
       printer
-      .font('B')
-      .align('CT')
-      .style('NORMAL')
-      .size(1, 1)
-      .text('Заказ № ' + item.orderNumber + (item.export ? ' с собой' : ''))
-      .text('Дата заказа ' + new Date(item.date).toLocaleString())
-      .text('')
-      .text(item.products.map(i => i.name.concat('...x', i.count.toString(), '...', i.cost.toString(), 'руб.')).join("\r\n"))
-      .text('')
-      .text('Итого: ' + item.total + ' руб.')
-      .text('')
-      .text('')
-      .qrimage('https://freefaint.ru')
-      .text('Терминалы самообслуживания с голосовым модулем voice-shop.ru тел. +7 (929) 632 5522')
-      .cut()
-      .close()
+        .font('B')
+        .align('CT')
+        .style('NORMAL')
+        .size(1, 1)
+        .barcode(item.orderNumber.toString(), 'EAN8')
+        .text('')
+        .text('Заказ № ' + item.orderNumber + (item.export ? ' с собой' : ''))
+        .text('Дата ' + new Date(item.date).toLocaleString())
+        .text('');
+
+      item.products.forEach(i => {
+        printer
+          .text(item.products.map(i => i.name.concat('...x', i.count.toString(), '...', i.cost.toString(), 'руб.')).join("\r\n"))
+          .tableCustom({ text: i.name, align:"LEFT", width: 0.33 })
+          .tableCustom({ text: 'x' + i.count, align:"RIGHT", width: 0.33 })
+          .tableCustom({ text: i.cost.toString(), align:"RIGHT", width: 0.33 })
+      });
+      
+      printer
+        .text('')
+        .text('Итого: ' + item.total + ' руб.')
+        .text('')
+        .text('Терминалы самообслуживания с голосовым модулем voice-shop.ru тел. +7 (929) 632 5522')
+        .qrimage('https://freefaint.ru', err => {
+          printer.cut();
+          printer.close();
+        })
     });
 
     latest = item;
