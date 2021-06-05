@@ -10,7 +10,7 @@ const device  = new USB();
 // const device  = new escpos.Network('localhost');
 // const device  = new escpos.Serial('/dev/usb/lp0');
 
-const options = { encoding: "windows1251" /* default */ }
+const options = { encoding: "cp866" /* default */ }
 // const options = { encoding: "windows1251" /* default */ }
 // encoding is optional
 
@@ -30,14 +30,14 @@ const getLatest = () => {
       // .align('CT')
       // .style('BU')
       // .size(1, 1)
-      .text('╟рърч ╣ ' + item.orderNumber + (item.export ? ' ё ёюсющ' : ''))
-      .text('─рЄр чрърчр ' + new Date(item.date).toLocaleString())
+      .text('Заказ № ' + item.orderNumber + (item.export ? ' с собой' : ''))
+      .text('Дата заказа ' + new Date(item.date).toLocaleString())
       .text('')
-      .text(item.products.map(i => i.name.concat('...x', i.count.toString(), '...', i.cost.toString(), 'Ёєс.')).join("\r\n"))
+      .text(item.products.map(i => i.name.concat('...x', i.count.toString(), '...', i.cost.toString(), 'руб.')).join("\r\n"))
       .text('')
-      .text('╚Єюую: ' + item.total + ' Ёєс.')
+      .text('Итого: ' + item.total + ' руб.')
       .text('')
-      // .text('╥хЁьшэры√ ёрьююсёыєцштрэш  ё уюыюёют√ь ьюфєыхь voice-shop.ru Єхы. +7 (929) 632 5522')
+      // .text('Терминалы самообслуживания с голосовым модулем voice-shop.ru тел. +7 (929) 632 5522')
       // .qrimage('https://freefaint.ru', function(err){
       //   printer.cut();
       //   printer.close();
@@ -61,7 +61,7 @@ let result = encoder
     .text('The quick brown fox jumps over the lazy dog')
     .newline()
     .codepage('windows1251')
-    .text('╧ЁштхЄ')
+    .text('Привет')
     // .qrcode('https://nielsleenheer.com')
     .encode();
 
@@ -72,8 +72,8 @@ device.open(function(error: any) {
   .style('BU')
   .size(1, 1)
   .style('NORMAL')
-  .encode("windows1251")
-  .text("╧ЁштхЄ")
+  .encode("cp866")
+  .text("Привет")
   .text('')
   .text('')
   .text('')
