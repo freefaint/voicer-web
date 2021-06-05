@@ -73,7 +73,6 @@ device.open(function(error: any) {
   .size(1, 1)
   .style('NORMAL')
   // .encode("cp866")
-  .print("ффф")
   .text("ыффф")
   .text('')
   .text('')
