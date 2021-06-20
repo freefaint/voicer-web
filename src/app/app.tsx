@@ -11,26 +11,28 @@ import { useState } from 'react';
 
 function App() {
   const { user, login, logout } = useAuth();
-  const [ selectedUser, setSelectedUser ] = useState<string>();
+  const [selectedUser, setSelectedUser] = useState<string>();
 
   return (
-    <SpeechProvider>
-      <CartProvider>
-        {!user && (
-          <Login onLogin={login} />
-        )}
+    <>
+      {!user && (
+        <Login onLogin={login} />
+      )}
 
-        {user?.admin && !selectedUser && (
-          <Admin onSelectUser={setSelectedUser} onLogout={logout} />
-        )}
+      {user?.admin && !selectedUser && (
+        <Admin onSelectUser={setSelectedUser} onLogout={logout} />
+      )}
 
-        {user && (!user.admin || selectedUser) && (
-          <ShopProvider user={selectedUser || user._id!}>
-            <Shop admin={user.admin} onClearSelectedUser={user.admin ? (() => setSelectedUser(undefined)) : undefined} onLogout={logout} />
-          </ShopProvider>
-        )}
-      </CartProvider>
-    </SpeechProvider>
+      {user && (!user.admin || selectedUser) && (
+        <SpeechProvider>
+          <CartProvider>
+            <ShopProvider user={selectedUser || user._id!}>
+              <Shop admin={user.admin} onClearSelectedUser={user.admin ? (() => setSelectedUser(undefined)) : undefined} onLogout={logout} />
+            </ShopProvider>
+          </CartProvider>
+        </SpeechProvider>
+      )}
+    </>
   );
 }
 

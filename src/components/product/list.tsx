@@ -35,7 +35,7 @@ export const ProductList = ({ admin, products, style, onLogout, onRemove, onAdd,
     if (!container.current) {
       return;
     }
-    
+
     onCommand();
     container.current.scrollTop = container.current.scrollTop - container.current.clientHeight;
   });
@@ -54,7 +54,7 @@ export const ProductList = ({ admin, products, style, onLogout, onRemove, onAdd,
         const json = JSON.parse(ev.target?.result as string);
 
         onUpload(json);
-        
+
         if (ref.current) {
           // @ts-ignore
           ref.current.value = '';
@@ -67,7 +67,7 @@ export const ProductList = ({ admin, products, style, onLogout, onRemove, onAdd,
 
   return (
     <div style={{ display: "flex", flexDirection: "column", ...style }}>
-      <div style={{ display: "flex", justifyContent: "space-between"}}>
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
         <Typography gutterBottom variant="h2" component="h2">
           Наше меню
         </Typography>
@@ -81,16 +81,16 @@ export const ProductList = ({ admin, products, style, onLogout, onRemove, onAdd,
               <input key={products.length} ref={ref} style={{ visibility: "hidden" }} type="file" onChange={handleChange} />
             </div>
           )}
-          <Fab color="secondary" onClick={onLogout} style={{ position: "absolute", top: "1rem", right: "1rem"}}>
+          <Fab color="secondary" onClick={onLogout} style={{ position: "absolute", top: "1rem", right: "1rem" }}>
             <ExitIcon />
           </Fab>
         </div>
       </div>
 
       <div ref={container} style={{ display: "flex", overflow: "auto", scrollBehavior: "smooth" }}>
-        <Grid container spacing={0} style={{ margin: "none" }}>
+        <Grid container spacing={0} style={{ margin: "none" }} >
           {products.map(product => (
-            <Grid key={product.id} xs={3}>
+            <Grid key={product.name} xs={3}>
               <ProductItem admin={admin} onRemove={onRemove} product={product} onSelect={onSelectProduct} />
             </Grid>
           ))}
