@@ -1,4 +1,4 @@
-import { createContext, PropsWithChildren, useCallback, useContext, useEffect, useState } from "react";
+import { createContext, PropsWithChildren, useCallback, useContext, useEffect, useMemo, useState } from "react";
 
 import { useCommand } from "../hooks/useCommand";
 import { useData } from "../hooks/useData";
@@ -15,7 +15,7 @@ export const ShopProvider = ({ children, user }: PropsWithChildren<{ user: strin
   const { db: products, clearDB, uploadDB, editDB, addDB, removeDB } = useData(user);
   const { seconds, reset } = useTimeout(180);
 
-  const [ currentId, setCurrentId ] = useState<string>();
+  const [currentId, setCurrentId] = useState<string>();
 
   const speech = useSpeech();
   const cart = useContext(CartContext);
@@ -25,22 +25,22 @@ export const ShopProvider = ({ children, user }: PropsWithChildren<{ user: strin
   const close = useCallback(() => {
     reset();
     setCurrentId(undefined);
-  }, [ setCurrentId, reset ]);
+  }, [setCurrentId, reset]);
 
   const selectRandom = useCallback(() => {
     setCurrentId(products[Math.ceil(Math.random() * products.length) - 1].id);
-  }, [ setCurrentId, products ]);
+  }, [setCurrentId, products]);
 
   const add = useCallback((id: string, count?: number) => {
     reset();
     cart?.add(id, count);
     close();
-  }, [ cart, reset, close ]);
+  }, [cart, reset, close]);
 
   const remove = useCallback((id: string) => {
     reset();
     cart?.del(id);
-  }, [ cart, reset ]);
+  }, [cart, reset]);
 
   const count = useCallback((id: string, count: number) => {
     reset();
@@ -50,7 +50,7 @@ export const ShopProvider = ({ children, user }: PropsWithChildren<{ user: strin
   const clear = useCallback(() => {
     reset();
     cart?.clear();
-  }, [ reset, cart ]);
+  }, [reset, cart]);
 
   useEffect(() => {
     if (!seconds) {
@@ -66,28 +66,29 @@ export const ShopProvider = ({ children, user }: PropsWithChildren<{ user: strin
         ...i,
         results: [
           {
-            name: i.name, 
+            name: i.name,
 
             results: speech?.results.map(k => ({
               speech: k,
-              ok: k.toLowerCase().indexOf(i.name.replace(/[()"«»]/, '').toLowerCase().trim()) !== -1 
+              ok: k.toLowerCase().indexOf(i.name.replace(/[()"«»]/, '').toLowerCase().trim()) !== -1
             }))
           },
 
           ...i.names.map(j => ({
             name: j,
-            
+
             results: speech?.results.map(k => ({
               speech: k,
-              ok: k.toLowerCase().indexOf(j.toLowerCase().trim()) !== -1 }) )
+              ok: k.toLowerCase().indexOf(j.toLowerCase().trim()) !== -1
             }))
+          }))
         ]
-      }) )
+      }))
       .filter(i => i.results?.find(j => j.results?.find(k => k.ok)))
       .sort((a, b) => {
         const first = Math.max(...a.results.filter(i => i.results?.find(j => j.ok)).map(i => i.name.length));
         const second = Math.max(...b.results.filter(i => i.results?.find(j => j.ok)).map(i => i.name.length));
-  
+
         return first > second ? -1 : first < second ? 1 : 0;
       });
 
@@ -98,13 +99,13 @@ export const ShopProvider = ({ children, user }: PropsWithChildren<{ user: strin
     if (target && currentId !== target.id) {
       setCurrentId(target.id);
     }
-  }, [ speech, products, currentId ]);
+  }, [speech, products, currentId]);
 
   useCommand('закрыть', close);
 
   useCommand('добавить', _command => {
     if (currentId) {
-      add(currentId, 1);  
+      add(currentId, 1);
     }
   });
 
@@ -116,7 +117,7 @@ export const ShopProvider = ({ children, user }: PropsWithChildren<{ user: strin
 
   useCommand('очистить корзину', clear);
 
-  const context = {
+  const context = useMemo(() => ({
     products,
     currentId,
     count,
@@ -131,7 +132,7 @@ export const ShopProvider = ({ children, user }: PropsWithChildren<{ user: strin
     removeDB,
     addDB,
     editDB,
-  };
+  }), [products, currentId, count, close, clear, reset, add, remove, setCurrentId, clearDB, uploadDB, removeDB, addDB, editDB]);
 
   return (
     <ShopContext.Provider value={context}>
