@@ -90,7 +90,7 @@ export const ProductList = ({ admin, products, style, onLogout, onRemove, onAdd,
       <div ref={container} style={{ display: "flex", overflow: "auto", scrollBehavior: "smooth" }}>
         <Grid container spacing={0} style={{ margin: "none" }} >
           {products.map(product => (
-            <Grid key={product.name} xs={3}>
+            <Grid key={product._id} xs={3}>
               <ProductItem admin={admin} onRemove={onRemove} product={product} onSelect={onSelectProduct} />
             </Grid>
           ))}

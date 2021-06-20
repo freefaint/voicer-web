@@ -28,7 +28,7 @@ export const ShopProvider = ({ children, user }: PropsWithChildren<{ user: strin
   }, [setCurrentId, reset]);
 
   const selectRandom = useCallback(() => {
-    setCurrentId(products[Math.ceil(Math.random() * products.length) - 1].id);
+    setCurrentId(products[Math.ceil(Math.random() * products.length) - 1]._id);
   }, [setCurrentId, products]);
 
   const add = useCallback((id: string, count?: number) => {
@@ -96,8 +96,8 @@ export const ShopProvider = ({ children, user }: PropsWithChildren<{ user: strin
 
     const target = variants[0];
 
-    if (target && currentId !== target.id) {
-      setCurrentId(target.id);
+    if (target && currentId !== target._id) {
+      setCurrentId(target._id);
     }
   }, [speech, products, currentId]);
 

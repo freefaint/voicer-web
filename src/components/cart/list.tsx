@@ -52,17 +52,17 @@ export const CartList = ({ cart, style, onClear, onOrder }: Props) => {
           </Grid>
 
           {cart.map(item => (
-            <CartItem key={item.product.id} {...item} />
+            <CartItem key={item.product._id} {...item} />
           ))}
 
           <Grid xs={12}>
             <Typography style={{ marginTop: "8px" }} align="right" color="error" variant="body2" component="p">
-              Итого {cart.map(i => i.count * parseInt(i.product.cost)).reduce((a,b) => a + b, 0)} руб
+              Итого {cart.map(i => i.count * parseInt(i.product.cost)).reduce((a, b) => a + b, 0)} руб
             </Typography>
           </Grid>
         </Grid>
       </div>
-        
+
       <div style={{ display: "flex", justifyContent: "space-between", marginTop: "2rem" }}>
         <Fab color="secondary" variant="extended" onClick={onOrder}>
           <ShoppingCart className={buttonClasses.extendedIcon} />

@@ -43,34 +43,34 @@ interface Props {
 }
 
 export const ProductCard = ({ admin, product: prod, onSave, onDelete, onBuy, onRemove, onCount, onClose, onPointerMove, cart, ref, ...rest }: Props & PaperProps) => {
-  const [ product, setProduct ] = useState(prod);
-  const [ countToAdd, setCountToAdd ] = useState(1);
+  const [product, setProduct] = useState(prod);
+  const [countToAdd, setCountToAdd] = useState(1);
 
   const imageClasses = useImageStyles();
   const buttonClasses = useButtonStyles();
-  
-  const handleBuy = useCallback(() => onBuy(product.id, countToAdd), [onBuy, product.id, countToAdd]);
-  const handleRemove = useCallback(() => onRemove(product.id), [onRemove, product.id]);
 
-  const countInCart = useMemo(() => cart?.find(i => i.id === product.id)?.count, [cart, product.id]);
+  const handleBuy = useCallback(() => onBuy(product._id!, countToAdd), [onBuy, product._id, countToAdd]);
+  const handleRemove = useCallback(() => onRemove(product._id!), [onRemove, product._id]);
+
+  const countInCart = useMemo(() => cart?.find(i => i.id === product._id)?.count, [cart, product._id]);
 
   const setCount = useCallback((i: number) => {
     if (countInCart) {
       if (!i) {
-        return onRemove(product.id);
+        return onRemove(product._id!);
       }
 
-      onCount(product.id, i);
+      onCount(product._id!, i);
     } else {
       setCountToAdd(i);
     }
-  }, [countInCart, onCount, product.id, onRemove]);
+  }, [countInCart, onCount, product._id, onRemove]);
 
   const handleSubmit = useCallback((e: FormEvent) => {
     e.preventDefault();
 
     onSave({ ...product, names: product.names.map(i => i.trim()).filter(i => i) });
-  }, [ onSave, product ]);
+  }, [onSave, product]);
 
   const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.currentTarget;
@@ -95,7 +95,7 @@ export const ProductCard = ({ admin, product: prod, onSave, onDelete, onBuy, onR
             <CloseIcon />
           </Fab>
         </CardMedia>
-        
+
         <CardContent style={{ margin: "2rem" }}>
           {admin && (
             <form onSubmit={handleSubmit}>
@@ -103,6 +103,14 @@ export const ProductCard = ({ admin, product: prod, onSave, onDelete, onBuy, onR
                 <div style={{ display: "flex", flexGrow: 1, flexDirection: "column" }}>
                   <FormControl>
                     <TextField label="Название" name="name" value={product.name} onChange={handleChange} />
+                  </FormControl>
+
+                  <FormControl>
+                    <TextField label="Описание" name="description" value={product.description} onChange={handleChange} />
+                  </FormControl>
+
+                  <FormControl>
+                    <TextField label="Артикул" name="id" value={product.id} onChange={handleChange} />
                   </FormControl>
 
                   <FormControl>
@@ -137,6 +145,9 @@ export const ProductCard = ({ admin, product: prod, onSave, onDelete, onBuy, onR
                 <Typography variant="h6" component="p">
                   {product.description}
                 </Typography>
+                <Typography variant="h6" color="error" component="p">
+                  {product.id}
+                </Typography>
                 <div style={{ marginTop: "16px" }}>
                   <Typography variant="h4" color="error" component="span">
                     {product.cost}
@@ -146,7 +157,7 @@ export const ProductCard = ({ admin, product: prod, onSave, onDelete, onBuy, onR
                   </Typography>
                 </div>
               </div>
-          
+
               <div style={{ display: "flex", flexDirection: "column", justifyContent: "flex-end", alignItems: "flex-end", flexBasis: "20%" }}>
                 <Typography variant="h6" component="p">
                   {countInCart ? "У вас в корзине" : "Укажите количество"}

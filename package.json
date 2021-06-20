@@ -48,7 +48,7 @@
     "typescript": "^4.2.3"
   },
   "scripts": {
-    "start": "npm run start front",
+    "start": "npm run start:front",
     "front": "npm run start:front",
     "back": "pm2 start pm2.config.js",
     "printer": "pm2 start pm2.printer.config.js",

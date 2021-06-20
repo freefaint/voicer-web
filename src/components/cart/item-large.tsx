@@ -37,15 +37,15 @@ export const CartItemLarge = ({ product, onCount, onRemove, count }: Props) => {
 
   const handleCount = useCallback((count: number) => {
     if (!count) {
-      return onRemove(product.id);
+      return onRemove(product._id!);
     }
-    onCount(product.id, count);
-  }, [onCount, onRemove, product.id]);
+    onCount(product._id!, count);
+  }, [onCount, onRemove, product._id]);
 
   return (
     <>
       <Grid spacing={1} xs={1}>
-        <Avatar style={{ margin: "8px 0 8px 0"}} alt="Remy Sharp" src={product.img} className={classes.large} />
+        <Avatar style={{ margin: "8px 0 8px 0" }} alt="Remy Sharp" src={product.img} className={classes.large} />
       </Grid>
       <Grid xs={6}>
         <Typography variant="h5" component="p">
