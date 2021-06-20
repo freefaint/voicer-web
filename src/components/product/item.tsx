@@ -19,7 +19,7 @@ const useStyles = makeStyles({
 export const ProductItem = ({ product, admin, onRemove, onSelect }: { admin?: boolean; product: Product, onRemove: (product: Product) => void; onSelect: (id: string) => void }) => {
   const classes = useStyles();
 
-  const handleClick = useCallback(() => onSelect(product.id), [onSelect, product.id]);
+  const handleClick = useCallback(() => onSelect(product._id!), [onSelect, product._id]);
 
   const handleRemove = useCallback((e: SyntheticEvent) => {
     e.stopPropagation();
@@ -36,7 +36,7 @@ export const ProductItem = ({ product, admin, onRemove, onSelect }: { admin?: bo
             title={product.name}
           >
             {admin && (
-              <Fab color="secondary" onClick={handleRemove} style={{ position: "absolute", top: "1rem", right: "1rem"}}>
+              <Fab color="secondary" onClick={handleRemove} style={{ position: "absolute", top: "1rem", right: "1rem" }}>
                 <CloseIcon />
               </Fab>
             )}

@@ -29,18 +29,18 @@ interface Props {
 }
 
 export const Shop = ({ admin, onLogout, onClearSelectedUser }: Props) => {
-  const [ openedCart, setOpenedCart ] = useState(false);
-  const [ openedReady, setOpenedReady ] = useState<number>();
+  const [openedCart, setOpenedCart] = useState(false);
+  const [openedReady, setOpenedReady] = useState<number>();
 
   const shop = useContext(ShopContext);
   const cart = useContext(CartContext);
 
   const classes = useDialogStyles();
 
-  const current = useMemo(() => shop?.products.find(i => i.id === shop?.currentId), [ shop?.products, shop?.currentId ]);
+  const current = useMemo(() => shop?.products.find(i => i._id === shop?.currentId), [shop?.products, shop?.currentId]);
 
-  const [ fresh, setFresh ] = useState<Product>();
-  
+  const [fresh, setFresh] = useState<Product>();
+
   const handleAdd = useCallback(() => {
     setFresh({
       "name": "",
@@ -84,16 +84,16 @@ export const Shop = ({ admin, onLogout, onClearSelectedUser }: Props) => {
         product={(fresh || current)!}
       />
     ) : () => <></>
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [current, fresh, cart]);
 
   const handleOpenCart = useCallback(() => {
     setOpenedCart(true);
-  }, [ setOpenedCart ]);
+  }, [setOpenedCart]);
 
   const handleCloseCart = useCallback(() => {
     setOpenedCart(false);
-  }, [ setOpenedCart ]);
+  }, [setOpenedCart]);
 
   const handleCLoseReady = useCallback(() => {
     setOpenedReady(undefined);
@@ -103,13 +103,13 @@ export const Shop = ({ admin, onLogout, onClearSelectedUser }: Props) => {
     const date = new Date().toISOString();
     const orderNumber = parseInt(new Date().valueOf().toString().substr(6, 4), 10);
 
-    const data = cart?.products.map(i => ({ product: shop?.products.filter(j => j.id === i.id)[0], count: i.count }));
-    const total = data?.map(i => i.count * parseInt(i.product!.cost)).reduce((a,b) => a + b, 0);
+    const data = cart?.products.map(i => ({ product: shop?.products.filter(j => j._id === i.id)[0], count: i.count }));
+    const total = data?.map(i => i.count * parseInt(i.product!.cost)).reduce((a, b) => a + b, 0);
 
     if (!data?.length) {
       return;
     }
-    
+
     OrderService.addItem({
       orderNumber,
       date,
@@ -126,8 +126,8 @@ export const Shop = ({ admin, onLogout, onClearSelectedUser }: Props) => {
 
       fetch('https://voice.be-at.ru/mail.php', { method: 'post', body: JSON.stringify({ order: orderNumber, data, total, ssoboi: ssoboi ? 1 : 0 }) });
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ JSON.stringify(cart?.products) ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(cart?.products)]);
 
   useEffect(() => {
     if (!cart?.products.length) {
@@ -142,13 +142,13 @@ export const Shop = ({ admin, onLogout, onClearSelectedUser }: Props) => {
       classes={{
         paper: cart.products.length ? classes.dialog : undefined
       }}
-      
+
       maxWidth="xl"
       open={(!!current || !!fresh) && !openedReady}
       onClose={handleClose}
       PaperComponent={props => Paper(props)}
     />
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   ), [cart, classes.dialog, current, fresh, Paper]);
 
   const cartDialog = useMemo(() => cart && shop && (
@@ -159,7 +159,7 @@ export const Shop = ({ admin, onLogout, onClearSelectedUser }: Props) => {
       onClose={handleCloseCart}
     >
       <Cart
-        cart={cart.products.map(i => ({ product: shop.products.filter(j => j.id === i.id)[0], count: i.count }))}
+        cart={cart.products.map(i => ({ product: shop.products.filter(j => j._id === i.id)[0], count: i.count }))}
         products={shop.products}
 
         onRemove={shop.remove}
@@ -204,15 +204,15 @@ export const Shop = ({ admin, onLogout, onClearSelectedUser }: Props) => {
           onRemove={shop.removeDB}
           onClear={shop.clearDB}
         />
-        
+
         <CartList
           onClear={shop.clear}
           onOrder={handleOpenCart}
           style={{ transition: "all 200ms ease-out", filter: openedCart ? "blur(10px)" : "none" }}
-          cart={cart.products.map(i => ({ product: shop.products.filter(j => j.id === i.id)[0], count: i.count }))}
+          cart={cart.products.map(i => ({ product: shop.products.filter(j => j._id === i.id)[0], count: i.count }))}
         />
       </div>
-        
+
       {productDialog}
       {cartDialog}
       {readyDialog}
