@@ -31,7 +31,7 @@ interface Props {
 export const Cart = ({ cart, onClear, onCount, onRemove, onClose, onOrder }: Props) => {
   const buttonClasses = useButtonStyles();
 
-  const [ ssoboi, setSsoboi ] = useState(false);
+  const [ssoboi, setSsoboi] = useState(false);
 
   const handleOrder = useCallback(() => {
     onOrder(ssoboi);
@@ -42,7 +42,7 @@ export const Cart = ({ cart, onClear, onCount, onRemove, onClose, onOrder }: Pro
 
   return (
     <Paper>
-      <Fab color="secondary" onClick={onClose} style={{ position: "absolute", top: "1rem", right: "1rem"}}>
+      <Fab color="secondary" onClick={onClose} style={{ position: "absolute", top: "1rem", right: "1rem" }}>
         <CloseIcon />
       </Fab>
 
@@ -54,18 +54,18 @@ export const Cart = ({ cart, onClear, onCount, onRemove, onClose, onOrder }: Pro
 
           <div style={{ display: "flex", overflow: "auto" }}>
             <Grid alignItems="center" container>
-              <Grid xs={1} />
-              <Grid xs={6}>
+              <Grid item xs={1} />
+              <Grid item xs={6}>
                 <Typography style={{ marginBottom: "8px" }} variant="h5" component="p">
                   Название
                 </Typography>
               </Grid>
-              <Grid xs={2}>
+              <Grid item xs={2}>
                 <Typography style={{ marginBottom: "8px" }} align="right" variant="h5" component="p">
                   Кол-во
                 </Typography>
               </Grid>
-              <Grid xs={3}>
+              <Grid item xs={3}>
                 <Typography style={{ marginBottom: "8px" }} align="right" color="error" variant="h5" component="p">
                   Цена
                 </Typography>
@@ -80,9 +80,9 @@ export const Cart = ({ cart, onClear, onCount, onRemove, onClose, onOrder }: Pro
                 />
               ))}
 
-              <Grid xs={12}>
+              <Grid item xs={12}>
                 <Typography style={{ marginTop: "8px" }} align="right" color="error" variant="h5" component="p">
-                  Итого {cart.map(i => i.count * parseInt(i.product.cost)).reduce((a,b) => a + b, 0)} руб
+                  Итого {cart.map(i => i.count * parseInt(i.product.cost)).reduce((a, b) => a + b, 0)} руб
                 </Typography>
               </Grid>
             </Grid>
@@ -94,7 +94,7 @@ export const Cart = ({ cart, onClear, onCount, onRemove, onClose, onOrder }: Pro
             }
             label="Заказ заберу с собой"
           />
-               
+
           <div style={{ display: "flex", justifyContent: "space-between", marginTop: "2rem" }}>
             <Fab color="secondary" variant="extended" onClick={handleOrder}>
               <ShoppingCart className={buttonClasses.extendedIcon} />

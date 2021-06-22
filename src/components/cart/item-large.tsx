@@ -44,20 +44,20 @@ export const CartItemLarge = ({ product, onCount, onRemove, count }: Props) => {
 
   return (
     <>
-      <Grid spacing={1} xs={1}>
+      <Grid spacing={1} item xs={1}>
         <Avatar style={{ margin: "8px 0 8px 0" }} alt="Remy Sharp" src={product.img} className={classes.large} />
       </Grid>
-      <Grid xs={6}>
+      <Grid item xs={6}>
         <Typography variant="h5" component="p">
           {product.name}
         </Typography>
       </Grid>
-      <Grid xs={2}>
+      <Grid item xs={2}>
         <Typography align="right" variant="h5" component="p">
           <Count count={count} onChange={handleCount} />
         </Typography>
       </Grid>
-      <Grid xs={3}>
+      <Grid item xs={3}>
         <Typography align="right" color="error" variant="h5" component="p">
           {product.cost}
         </Typography>
