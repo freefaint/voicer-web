@@ -148,9 +148,9 @@ export const ProductCard = ({ admin, product: prod, onSave, onDelete, onBuy, onR
                 <Typography variant="h6" component="p">
                   {product.description}
                 </Typography>
-                <Typography variant="h6" color="error" component="p">
+                {/* <Typography variant="h6" color="error" component="p">
                   {product.id}
-                </Typography>
+                </Typography> */}
                 <div style={{ marginTop: "16px" }}>
                   <Typography variant="h4" color="error" component="span">
                     {product.cost}
