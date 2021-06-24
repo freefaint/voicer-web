@@ -34,18 +34,18 @@ export const CartList = ({ cart, style, onClear, onOrder }: Props) => {
 
       <div style={{ display: "flex", overflow: "auto" }}>
         <Grid alignItems="center" container>
-          <Grid xs={1} />
-          <Grid xs={6}>
+          <Grid item xs={1} />
+          <Grid item xs={6}>
             <Typography style={{ marginBottom: "8px" }} variant="body2" component="p">
               Название
             </Typography>
           </Grid>
-          <Grid xs={2}>
+          <Grid item xs={2}>
             <Typography style={{ marginBottom: "8px" }} align="right" variant="body2" component="p">
               Кол-во
             </Typography>
           </Grid>
-          <Grid xs={3}>
+          <Grid item xs={3}>
             <Typography style={{ marginBottom: "8px" }} align="right" color="error" variant="body2" component="p">
               Цена
             </Typography>
@@ -55,7 +55,7 @@ export const CartList = ({ cart, style, onClear, onOrder }: Props) => {
             <CartItem key={item.product._id} {...item} />
           ))}
 
-          <Grid xs={12}>
+          <Grid item xs={12}>
             <Typography style={{ marginTop: "8px" }} align="right" color="error" variant="body2" component="p">
               Итого {cart.map(i => i.count * parseInt(i.product.cost)).reduce((a, b) => a + b, 0)} руб
             </Typography>

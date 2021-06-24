@@ -40,7 +40,7 @@ export const ProductItem = ({ product, admin, onRemove, onSelect }: { admin?: bo
                 <CloseIcon />
               </Fab>
             )}
-          </CardMedia>
+          </CardMedia >
           <CardContent>
             <Typography gutterBottom variant="body2" component="h2">
               {product.name}

@@ -86,17 +86,20 @@ export const ProductCard = ({ admin, product: prod, onSave, onDelete, onBuy, onR
           image={product.img}
           title={product.name}
           style={{
+            float: "left",
+            minWidth: "55%",
             padding: "20px",
             display: "flex",
             justifyContent: "flex-end",
           }}
         >
-          <Fab color="secondary" onClick={onClose}>
-            <CloseIcon />
-          </Fab>
-        </CardMedia>
 
-        <CardContent style={{ margin: "2rem" }}>
+        </CardMedia>
+        <Fab color="secondary" style={{ float: "right", margin: "1em 1em 0 0" }} onClick={onClose}>
+          <CloseIcon />
+        </Fab>
+        <CardContent style={{ margin: "2rem", display: "flex" }}>
+
           {admin && (
             <form onSubmit={handleSubmit}>
               <div style={{ display: "flex", justifyContent: "center" }}>
@@ -137,7 +140,7 @@ export const ProductCard = ({ admin, product: prod, onSave, onDelete, onBuy, onR
           )}
 
           {!admin && (
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", flexDirection: "column", margin: "50px", width: "100%", textAlign: "center" }}>
               <div style={{ display: "flex", flexDirection: "column", flexBasis: "80%" }}>
                 <Typography gutterBottom variant="h2" component="h1">
                   {product.name}
@@ -158,7 +161,8 @@ export const ProductCard = ({ admin, product: prod, onSave, onDelete, onBuy, onR
                 </div>
               </div>
 
-              <div style={{ display: "flex", flexDirection: "column", justifyContent: "flex-end", alignItems: "flex-end", flexBasis: "20%" }}>
+              <div style={{ display: "flex", flexDirection: "column", justifyContent: "flex-end", alignItems: "center", flexBasis: "20%", margin: "50px 0 0 0" }}>
+
                 <Typography variant="h6" component="p">
                   {countInCart ? "У вас в корзине" : "Укажите количество"}
                 </Typography>
@@ -183,6 +187,6 @@ export const ProductCard = ({ admin, product: prod, onSave, onDelete, onBuy, onR
           )}
         </CardContent>
       </Card>
-    </div>
+    </div >
   );
 }
