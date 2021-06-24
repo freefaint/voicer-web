@@ -3,6 +3,7 @@ import { Product } from "./product";
 export interface Shop {
   products: Product[];
   currentId?: string;
+  demo: boolean;
   count: (id: string, count: number) => void;
   close: () => void;
   clear: () => void;

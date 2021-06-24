@@ -53,7 +53,7 @@ export const CartItemLarge = ({ product, onCount, onRemove, count }: Props) => {
         </Typography>
       </Grid>
       <Grid item xs={2}>
-        <Typography align="right" variant="h5" component="p">
+        <Typography align="center" variant="h5" component="p">
           <Count count={count} onChange={handleCount} />
         </Typography>
       </Grid>

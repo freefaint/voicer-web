@@ -1,5 +1,4 @@
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { Dialog, makeStyles, PaperProps } from '@material-ui/core';
 
 import * as OrderService from '../rest/order';
 
@@ -12,15 +11,7 @@ import { ProductCard } from './product/card';
 import { Cart } from './cart/cart';
 import { Result } from './cart/result';
 import { Product } from '../types/product';
-
-const useDialogStyles = makeStyles({
-  dialog: {
-    position: 'absolute',
-    right: '450px',
-    width: 'calc(100vw - 520px)',
-    boxSizing: 'border-box'
-  }
-});
+import { Demo } from './demo';
 
 interface Props {
   onLogout: () => void;
@@ -34,8 +25,6 @@ export const Shop = ({ admin, onLogout, onClearSelectedUser }: Props) => {
 
   const shop = useContext(ShopContext);
   const cart = useContext(CartContext);
-
-  const classes = useDialogStyles();
 
   const current = useMemo(() => shop?.products.find(i => i._id === shop?.currentId), [shop?.products, shop?.currentId]);
 
@@ -68,24 +57,6 @@ export const Shop = ({ admin, onLogout, onClearSelectedUser }: Props) => {
       shop?.addDB(product);
     }
   }, [shop]);
-
-  const Paper = useMemo(() => {
-    return (current || fresh) && shop ? (props: PaperProps) => (
-      <ProductCard
-        {...props}
-        admin={admin}
-        cart={cart?.products}
-        onCount={shop?.count}
-        onBuy={(id, count) => shop?.add(id, count)}
-        onRemove={id => shop?.remove(id)}
-        onDelete={product => shop?.removeDB(product)}
-        onClose={handleClose}
-        onSave={handleSave}
-        product={(fresh || current)!}
-      />
-    ) : () => <></>
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [current, fresh, cart]);
 
   const handleOpenCart = useCallback(() => {
     setOpenedCart(true);
@@ -135,87 +106,70 @@ export const Shop = ({ admin, onLogout, onClearSelectedUser }: Props) => {
     }
   }, [cart, cart?.products]);
 
-  const productDialog = useMemo(() => cart && shop && (
-    <Dialog
-      fullWidth={true}
-
-      classes={{
-        paper: cart.products.length ? classes.dialog : undefined
-      }}
-
-      maxWidth="xl"
-      open={(!!current || !!fresh) && !openedReady}
-      onClose={handleClose}
-      PaperComponent={props => Paper(props)}
-    />
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  ), [cart, classes.dialog, current, fresh, Paper]);
-
-  const cartDialog = useMemo(() => cart && shop && (
-    <Dialog
-      fullWidth={true}
-      maxWidth="xl"
-      open={!!openedCart}
-      onClose={handleCloseCart}
-    >
-      <Cart
-        cart={cart.products.map(i => ({ product: shop.products.filter(j => j._id === i.id)[0], count: i.count }))}
-        products={shop.products}
-
-        onRemove={shop.remove}
-        onCount={shop.count}
-        onOrder={handleOrder}
-        onClear={shop.clear}
-        onClose={handleCloseCart}
-      />
-    </Dialog>
-  ), [cart, shop, openedCart, handleCloseCart, handleOrder]);
-
-  const readyDialog = useMemo(() => (
-    <Dialog
-      fullWidth={true}
-      maxWidth="xl"
-      open={!!openedReady}
-      onClose={handleCLoseReady}
-    >
-      <Result
-        code={openedReady + ''}
-        onClose={handleCLoseReady}
-      />
-    </Dialog>
-  ), [openedReady, handleCLoseReady]);
-
   if (!shop || !cart) {
     return null;
   }
 
   return (
-    <>
-      <div style={{ display: "flex", height: "100vh", padding: "2rem 0 2rem 2rem", boxSizing: "border-box", backgroundColor: "#eee" }}>
-        <ProductList
-          onCommand={shop.resetDemoTimer}
-          onSelectProduct={shop.setCurrentId}
-          style={{ transition: "all 200ms ease-out", filter: current || openedCart ? "blur(10px)" : "none" }}
-          products={shop.products}
+    <div style={{ display: "flex", height: "100vh", padding: "2rem 0 2rem 2rem", boxSizing: "border-box", backgroundColor: "#eee" }}>
+      {(current || fresh) && !openedCart && !openedReady && !shop.demo && (
+        <ProductCard
           admin={admin}
-          onLogout={onClearSelectedUser || onLogout}
-          onAdd={handleAdd}
-          onUpload={shop.uploadDB}
-          onRemove={shop.removeDB}
-          onClear={shop.clearDB}
+          cart={cart?.products}
+          onCount={shop?.count}
+          onBuy={(id, count) => shop?.add(id, count)}
+          onRemove={id => shop?.remove(id)}
+          onDelete={product => shop?.removeDB(product)}
+          onClose={handleClose}
+          onSave={handleSave}
+          product={(fresh || current)!}
         />
+      )}
 
+      <ProductList
+        style={{ display: !current && !fresh && !openedCart && !shop.demo && !openedReady ? "flex" : "none" }}
+        onCommand={shop.resetDemoTimer}
+        onSelectProduct={shop.setCurrentId}
+        products={shop.products}
+        admin={admin}
+        onLogout={onClearSelectedUser || onLogout}
+        onAdd={handleAdd}
+        onUpload={shop.uploadDB}
+        onRemove={shop.removeDB}
+        onClear={shop.clearDB}
+      />
+
+      {openedCart && !openedReady && !shop.demo && (
+        <Cart
+          cart={cart.products.map(i => ({ product: shop.products.filter(j => j._id === i.id)[0], count: i.count }))}
+          products={shop.products}
+  
+          onRemove={shop.remove}
+          onCount={shop.count}
+          onOrder={handleOrder}
+          onClear={shop.clear}
+          onClose={handleCloseCart}
+        />
+      )}
+
+      {!!cart.products.length && !openedCart && !openedReady && !shop.demo && (
         <CartList
           onClear={shop.clear}
           onOrder={handleOpenCart}
-          style={{ transition: "all 200ms ease-out", filter: openedCart ? "blur(10px)" : "none" }}
           cart={cart.products.map(i => ({ product: shop.products.filter(j => j._id === i.id)[0], count: i.count }))}
         />
-      </div>
+      )}
 
-      {productDialog}
-      {cartDialog}
-      {readyDialog}
-    </>
+      {!!openedReady && !shop.demo && (
+        <Result
+          code={openedReady + ''}
+          onClose={handleCLoseReady}
+        />
+      )}
+
+      {!!shop.demo && (
+        <Demo onClick={shop.resetDemoTimer} />
+      )}
+    </div>
   )
 }

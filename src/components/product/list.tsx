@@ -66,7 +66,7 @@ export const ProductList = ({ admin, products, style, onLogout, onRemove, onAdd,
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", ...style }}>
+    <div style={{ display: "flex", flexDirection: "column", position: "relative", ...style }}>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <Typography gutterBottom variant="h2" component="h2">
           Наше меню
@@ -81,7 +81,7 @@ export const ProductList = ({ admin, products, style, onLogout, onRemove, onAdd,
               <input key={products.length} ref={ref} style={{ visibility: "hidden" }} type="file" onChange={handleChange} />
             </div>
           )}
-          <Fab color="secondary" onClick={onLogout} style={{ position: "absolute", top: "1rem", right: "1rem" }}>
+          <Fab color="secondary" onClick={onLogout} style={{ marginRight: "2rem" }}>
             <ExitIcon />
           </Fab>
         </div>

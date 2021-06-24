@@ -15,19 +15,19 @@ const useButtonStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-interface Props extends React.HTMLProps<HTMLDivElement> {
+interface Props {
   cart: { product: Product, count: number }[];
   onOrder: () => void;
   onClear: () => void;
 }
 
-export const CartList = ({ cart, style, onClear, onOrder }: Props) => {
+export const CartList = ({ cart, onClear, onOrder }: Props) => {
   const buttonClasses = useButtonStyles();
 
   useCommand('Заказать', onOrder);
 
   return (
-    <div style={{ ...style, width: !cart.length ? 0 : "400px", minWidth: !cart.length ? 0 : "400px", marginRight: !cart.length ? "0" : "2rem", opacity: !cart.length ? 0 : 1, transition: "all 200ms ease-out", display: "flex", flexDirection: "column" }}>
+    <div style={{ width: "400px", minWidth: "400px", padding: "0 2rem", display: "flex", flexDirection: "column" }}>
       <Typography gutterBottom variant="h2" component="h2">
         Корзина
       </Typography>

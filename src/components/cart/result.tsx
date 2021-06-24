@@ -1,4 +1,4 @@
-import { DialogContent, Fab, Paper, Typography } from "@material-ui/core";
+import { Fab, Paper, Typography } from "@material-ui/core";
 import CloseIcon from '@material-ui/icons/CloseRounded';
 import { useEffect } from "react";
 import { useCommand } from "../../hooks/useCommand";
@@ -17,18 +17,16 @@ export const Result = ({ code, onClose }: Props) => {
   }, []);
 
   return (
-    <Paper>
+    <Paper style={{ width: "calc(100% - 2rem", position: "relative", display: "flex" }}>
       <Fab color="secondary" onClick={onClose} style={{ position: "absolute", top: "1rem", right: "1rem"}}>
         <CloseIcon />
       </Fab>
 
-      <DialogContent>
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", margin: "8rem 0" }}>
-          <Typography gutterBottom variant="h1" component="h2">
-            Спасибо! Код заказа {code}
-          </Typography>
-        </div>
-      </DialogContent>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", flexGrow: 1 }}>
+        <Typography gutterBottom variant="h1" component="h2">
+          Спасибо! Код заказа {code}
+        </Typography>
+      </div>
     </Paper>
   )
 }

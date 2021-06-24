@@ -13,23 +13,30 @@ export const ShopContext = createContext<Shop | undefined>(undefined);
 
 export const ShopProvider = ({ children, user }: PropsWithChildren<{ user: string }>) => {
   const { db: products, clearDB, uploadDB, editDB, addDB, removeDB } = useData(user);
-  const { seconds, reset } = useTimeout(180);
+  const { seconds, reset: resetTimer } = useTimeout(180);
+  const [ demo, setDemo ] = useState(true);
 
   const [currentId, setCurrentId] = useState<string>();
 
   const speech = useSpeech();
   const cart = useContext(CartContext);
 
-  // console.log('SHOP INIT');
+  const reset = useCallback(() => {
+    setDemo(false);
+    resetTimer();
+  }, [resetTimer]);
+
+  const setCurrent = useCallback((id?: string) => {
+    if (currentId !== id) {
+      setCurrentId(id);
+    }
+    reset();
+  }, [setCurrentId, reset, currentId]);
 
   const close = useCallback(() => {
     reset();
     setCurrentId(undefined);
   }, [setCurrentId, reset]);
-
-  const selectRandom = useCallback(() => {
-    setCurrentId(products[Math.ceil(Math.random() * products.length) - 1]._id);
-  }, [setCurrentId, products]);
 
   const add = useCallback((id: string, count?: number) => {
     reset();
@@ -55,10 +62,10 @@ export const ShopProvider = ({ children, user }: PropsWithChildren<{ user: strin
   useEffect(() => {
     if (!seconds) {
       cart?.clear();
-      selectRandom();
-      reset();
+      close();
+      setDemo(true);
     }
-  }, [cart, reset, seconds, selectRandom]);
+  }, [cart, close, setDemo, seconds]);
 
   useEffect(() => {
     const variants = products
@@ -96,10 +103,11 @@ export const ShopProvider = ({ children, user }: PropsWithChildren<{ user: strin
 
     const target = variants[0];
 
-    if (target && currentId !== target._id) {
-      setCurrentId(target._id);
+    if (target) {
+      setCurrent(target._id);
     }
-  }, [speech, products, currentId]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [speech, products]);
 
   useCommand('закрыть', close);
 
@@ -118,6 +126,7 @@ export const ShopProvider = ({ children, user }: PropsWithChildren<{ user: strin
   useCommand('очистить корзину', clear);
 
   const context = useMemo(() => ({
+    demo,
     products,
     currentId,
     count,
@@ -126,14 +135,14 @@ export const ShopProvider = ({ children, user }: PropsWithChildren<{ user: strin
     resetDemoTimer: reset,
     add,
     remove,
-    setCurrentId,
+    setCurrentId: setCurrent,
     clearDB,
     uploadDB,
     removeDB,
     addDB,
     editDB,
-  }), [products, currentId, count, close, clear, reset, add, remove, setCurrentId, clearDB, uploadDB, removeDB, addDB, editDB]);
-
+  }), [products, currentId, demo, count, close, clear, reset, add, remove, setCurrent, clearDB, uploadDB, removeDB, addDB, editDB]);
+  console.log(demo);
   return (
     <ShopContext.Provider value={context}>
       {children}
