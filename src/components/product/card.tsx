@@ -84,7 +84,7 @@ export const ProductCard = ({ admin, product: prod, onSave, onDelete, onBuy, onR
 
       <CardMedia
         className={imageClasses.media}
-        image={product.img}
+        image={`/files/mirror?url=${product.img}`}
         title={product.name}
       />
 

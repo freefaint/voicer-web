@@ -1,5 +1,6 @@
 export interface Product {
   _id?: string;
+  __v?: string;
   user?: string;
   id: string;
   name: string;

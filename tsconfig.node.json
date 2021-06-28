@@ -28,6 +28,7 @@
     "src/components",
     "src/pages",
     "src/contexts",
+    "src/tools",
     "src/hooks",
     "src/styles",
     "src/index.tsx",

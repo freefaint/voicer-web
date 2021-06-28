@@ -1,6 +1,7 @@
 import { Button, Fab, Grid, Typography } from "@material-ui/core";
 import ExitIcon from '@material-ui/icons/ExitToAppRounded';
 import { ChangeEvent, useCallback, useRef } from "react";
+import { download } from "tools/download";
 import { useCommand } from "../../hooks/useCommand";
 
 import { Product } from "../../types/product";
@@ -65,6 +66,10 @@ export const ProductList = ({ admin, products, style, onLogout, onRemove, onAdd,
     };
   };
 
+  const handleExport = useCallback(() => {
+    download('products.json', JSON.stringify(products.map(({ __v, _id, user, ...rest }) => ({ ...rest })), null, "\t"));
+  }, [products]);
+
   return (
     <div style={{ display: "flex", flexDirection: "column", position: "relative", ...style }}>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -78,6 +83,7 @@ export const ProductList = ({ admin, products, style, onLogout, onRemove, onAdd,
               <Button color="primary" onClick={onAdd}>Добавить товар</Button>
               <Button color="secondary" onClick={onClear}>Очистить базу</Button>
               <Button onClick={handleImport}>Импортировать</Button>
+              <Button onClick={handleExport} disabled={!products.length}>Экспортировать</Button>
               <input key={products.length} ref={ref} style={{ visibility: "hidden" }} type="file" onChange={handleChange} />
             </div>
           )}

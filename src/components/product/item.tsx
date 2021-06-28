@@ -32,7 +32,7 @@ export const ProductItem = ({ product, admin, onRemove, onSelect }: { admin?: bo
         <CardActionArea onClick={handleClick}>
           <CardMedia
             className={classes.media}
-            image={product.img}
+            image={`/files/mirror?url=${product.img}`}
             title={product.name}
           >
             {admin && (

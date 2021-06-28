@@ -8,6 +8,7 @@ import { Router } from 'express';
 // Storage
 import * as Storage from '../storage/files';
 import { UploadedFile } from 'express-fileupload';
+import Axios from 'axios';
 
 export const createApi = (router: Router) => {
   router.get('/api/v1/files/:id/info', function(req, res) {
@@ -20,6 +21,24 @@ export const createApi = (router: Router) => {
       // res.contentType(file.type);
 
       res.send({ name: file.name, type: file.type, size: file.size });
+    });
+  });
+
+  router.get('/files/mirror', function(req, res) {
+    if (!req.query.url) {
+      return res.sendStatus(400);
+    }
+
+    res.set('Cache-Control', 'public, max-age=31557600');
+
+    Axios.get(req.query.url.toString(), {
+      responseType: 'arraybuffer'
+    }).then(response => {
+      res.contentType(response.headers['content-type']);
+      res.send(Buffer.from(response.data));
+      // res.send(response.data);
+    }).catch(res => {
+      res.sendStatus(400);
     });
   });
 
