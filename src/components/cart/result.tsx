@@ -25,6 +25,8 @@ export const Result = ({ code, onClose }: Props) => {
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", flexGrow: 1 }}>
         <Typography gutterBottom variant="h1" component="h2">
           Спасибо! Код заказа {code}
+          <br />
+          Подойдите для оплаты на кассу
         </Typography>
       </div>
     </Paper>
