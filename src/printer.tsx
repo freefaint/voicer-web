@@ -30,7 +30,7 @@ const getLatest = async () => {
       return;
     }
     
-    device.open(function(error: any) {
+    device.open(function(error: any, dev) {
       printer
         .font('B')
         .align('CT')
@@ -54,7 +54,7 @@ const getLatest = async () => {
         .text('Терминалы самообслуживания с голосовым модулем voice-shop.ru тел. +7 (929) 632 5522')
         .qrimage('https://freefaint.ru', err => {
           printer.cut();
-          device.close();
+          dev.close();
         })
     });
 
