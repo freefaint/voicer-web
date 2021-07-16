@@ -12,6 +12,7 @@
     "body-parser": "^1.19.0",
     "connect-flash": "^0.1.1",
     "escpos": "^3.0.0-alpha.6",
+    "escpos-network": "^3.0.0-alpha.5",
     "escpos-usb": "^3.0.0-alpha.4",
     "express": "^4.17.1",
     "express-fileupload": "^1.2.0",

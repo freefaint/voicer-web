@@ -5664,6 +5664,11 @@ escodegen@^2.0.0:
   optionalDependencies:
     source-map "~0.6.1"
 
+escpos-network@^3.0.0-alpha.5:
+  version "3.0.0-alpha.5"
+  resolved "https://registry.yarnpkg.com/escpos-network/-/escpos-network-3.0.0-alpha.5.tgz#1c8eff5f93b8c24d8503e3858b4b2a76937f0332"
+  integrity sha512-H/K0nOBqXJ7yKmhN6OJIJgEgnnRGY2/18YWlJOmwEljoaO5LJ2fc0ofM7n/zn6ijNrXBAiQWwr5OHGYccJ/VPg==
+
 escpos-usb@^3.0.0-alpha.4:
   version "3.0.0-alpha.4"
   resolved "https://registry.yarnpkg.com/escpos-usb/-/escpos-usb-3.0.0-alpha.4.tgz#ed9953eff54b9b847a47406697c5401c8e37e234"
