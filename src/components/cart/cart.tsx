@@ -34,6 +34,7 @@ export const Cart = ({ cart, onClear, onCount, onRemove, onClose, onOrder }: Pro
   const [ssoboi, setSsoboi] = useState(false);
 
   const handleOrder = useCallback(() => {
+    console.log('EXPORT', ssoboi);
     onOrder(ssoboi);
   }, [ssoboi, onOrder]);
 
@@ -91,7 +92,7 @@ export const Cart = ({ cart, onClear, onCount, onRemove, onClose, onOrder }: Pro
 
         <FormControlLabel
           control={
-            <Checkbox value={ssoboi} onChange={value => setSsoboi(!value)} />
+            <Checkbox checked={ssoboi} onChange={() => setSsoboi(bool => !bool)} />
           }
           label="Заказ заберу с собой"
         />
