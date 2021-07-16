@@ -11,7 +11,7 @@ import { Order } from './types/order';
 
 escpos.Network = Network;
 
-const device = new escpos.Network('localhost');
+const device = new escpos.Network('192.168.0.110');
 // const device  = new escpos.Serial('/dev/usb/lp0');
 
 const options = { encoding: "cp866" /* default */ }
