@@ -29,8 +29,17 @@ const getLatest = async () => {
     if (item._id === latest?._id) {
       return;
     }
+
+    const device = new escpos.Network('192.168.0.110');
+    // const device  = new escpos.Serial('/dev/usb/lp0');
+
+    const options = { encoding: "cp866" /* default */ }
+    // const options = { encoding: "windows1251" /* default */ }
+    // encoding is optional
+
+    const printer = new escpos.Printer(device, options);
     
-    device.open(function(error: any, dev) {
+    device.open(function(error: any) {
       printer
         .font('B')
         .align('CT')
@@ -54,7 +63,7 @@ const getLatest = async () => {
         .text('Терминалы самообслуживания с голосовым модулем voice-shop.ru тел. +7 (929) 632 5522')
         .qrimage('https://freefaint.ru', err => {
           printer.cut();
-          dev.close();
+          printer.close();
         })
     });
 
