@@ -22,17 +22,16 @@ const printer = new escpos.Printer(device, options);
 
 let latest: Order | null = null;
 
-const getLatest = async () => {
+const getLatest = () => {
   OrderService.getLatest().then(item => {
     console.log(item);
-
+    
     if (item._id === latest?._id) {
       return;
     }
 
     device.open(function(error: any) {
       printer
-        .beep(3, 3)
         .font('B')
         .align('CT')
         .style('NORMAL')
@@ -55,6 +54,7 @@ const getLatest = async () => {
         .text('Терминалы самообслуживания с голосовым модулем voice-shop.ru тел. +7 (929) 632 5522')
         .qrimage('https://freefaint.ru', err => {
           printer.cut();
+          printer.close();
         })
     });
 
