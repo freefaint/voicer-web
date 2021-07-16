@@ -56,6 +56,6 @@ export const putItems = (data: Product[]) => {
   return model.insertMany(data).then(() => null);
 };
 
-export const clearItems = (data: Product[]) => {
+export const clearItems = (data: Product) => {
   return model.deleteMany(data).then(() => null);
 };
