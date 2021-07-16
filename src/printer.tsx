@@ -22,7 +22,7 @@ const printer = new escpos.Printer(device, options);
 
 let latest: Order | null = null;
 
-const getLatest = () => {
+const getLatest = async () => {
   OrderService.getLatest().then(item => {
     console.log(item);
 
@@ -62,12 +62,9 @@ const getLatest = () => {
   });
 }
 
-device.open(function(error: any) {
-  getLatest();
+getLatest();
 
-  setInterval(getLatest, 5000);
-});
-
+setInterval(getLatest, 5000);
 
 // device.open(function(error: any) {
 //   printer
