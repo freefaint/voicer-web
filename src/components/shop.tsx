@@ -84,6 +84,7 @@ export const Shop = ({ admin, onLogout, onClearSelectedUser }: Props) => {
     OrderService.addItem({
       orderNumber,
       date,
+      export: ssoboi,
       total: total || 0,
       products: data!.map(i => ({
         ...i.product!,
