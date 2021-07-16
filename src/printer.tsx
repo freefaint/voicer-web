@@ -24,6 +24,8 @@ let latest: Order | null = null;
 
 const getLatest = () => {
   OrderService.getLatest().then(item => {
+    console.log(item);
+    
     if (item._id === latest?._id) {
       return;
     }
@@ -64,30 +66,30 @@ getLatest();
 
 setInterval(getLatest, 5000);
 
-device.open(function(error: any) {
-  printer
-  .font('B')
-  .align('CT')
-  .style('BU')
-  .size(1, 1)
-  .style('NORMAL')
-  // .encode("cp866")
-  .text("Привет")
-  .text('')
-  .text('')
-  .text('')
-  // .encode('cp866')
-  .cut()
-  .close()
-  // .barcode('1234567', 'EAN8')
-  // .table(["One", "Two", "Three"])
-  // .tableCustom([
-  //   { text:"Left", align:"LEFT", width:0.33 },
-  //   { text:"Center", align:"CENTER", width:0.33},
-  //   { text:"Right", align:"RIGHT", width:0.33 }
-  // ])
-  // .qrimage('https://github.com/song940/node-escpos', function(err){
-  //   printer.cut();
-  //   printer.close();
-  // });
-});
+// device.open(function(error: any) {
+//   printer
+//   .font('B')
+//   .align('CT')
+//   .style('BU')
+//   .size(1, 1)
+//   .style('NORMAL')
+//   // .encode("cp866")
+//   .text("Привет")
+//   .text('')
+//   .text('')
+//   .text('')
+//   // .encode('cp866')
+//   .cut()
+//   .close()
+//   // .barcode('1234567', 'EAN8')
+//   // .table(["One", "Two", "Three"])
+//   // .tableCustom([
+//   //   { text:"Left", align:"LEFT", width:0.33 },
+//   //   { text:"Center", align:"CENTER", width:0.33},
+//   //   { text:"Right", align:"RIGHT", width:0.33 }
+//   // ])
+//   // .qrimage('https://github.com/song940/node-escpos', function(err){
+//   //   printer.cut();
+//   //   printer.close();
+//   // });
+// });
