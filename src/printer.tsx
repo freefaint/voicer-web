@@ -25,46 +25,47 @@ let latest: Order | null = null;
 const getLatest = () => {
   OrderService.getLatest().then(item => {
     console.log(item);
-    
+
     if (item._id === latest?._id) {
       return;
     }
 
-    device.open(function(error: any) {
-      printer
-        .font('B')
-        .align('CT')
-        .style('NORMAL')
-        .size(1, 1)
-        .text('Заказ № ' + item.orderNumber + (item.export ? ' с собой' : ''))
-        .text('Дата ' + new Date(item.date).toLocaleString())
-        .text('')
-        .table(["Имя", "Кол-во", "Цена"]);
-        
-      item.products.forEach(i => {
-        printer
-          .table([i.name, 'x' + i.count, i.cost.toString() + ' руб.' ]);
-      });
+    printer
+      .beep(3, 3)
+      .font('B')
+      .align('CT')
+      .style('NORMAL')
+      .size(1, 1)
+      .text('Заказ № ' + item.orderNumber + (item.export ? ' с собой' : ''))
+      .text('Дата ' + new Date(item.date).toLocaleString())
+      .text('')
+      .table(["Имя", "Кол-во", "Цена"]);
       
+    item.products.forEach(i => {
       printer
-        // .text(item.products.map(i => i.name.concat('...x', i.count.toString(), '...', i.cost.toString(), 'руб.')).join("\r\n"))
-        .text('')
-        .table(['Итого: ', item.total + ' руб.'])
-        .text('')
-        .text('Терминалы самообслуживания с голосовым модулем voice-shop.ru тел. +7 (929) 632 5522')
-        .qrimage('https://freefaint.ru', err => {
-          printer.cut();
-          printer.close();
-        })
+        .table([i.name, 'x' + i.count, i.cost.toString() + ' руб.' ]);
     });
+    
+    printer
+      // .text(item.products.map(i => i.name.concat('...x', i.count.toString(), '...', i.cost.toString(), 'руб.')).join("\r\n"))
+      .text('')
+      .table(['Итого: ', item.total + ' руб.'])
+      .text('')
+      .text('Терминалы самообслуживания с голосовым модулем voice-shop.ru тел. +7 (929) 632 5522')
+      .qrimage('https://freefaint.ru', err => {
+        printer.cut();
+      });
 
     latest = item;
   });
 }
 
-getLatest();
+device.open(function(error: any) {
+  getLatest();
 
-setInterval(getLatest, 5000);
+  setInterval(getLatest, 5000);
+});
+
 
 // device.open(function(error: any) {
 //   printer
