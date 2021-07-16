@@ -20,12 +20,8 @@ const schema = new mongoose.Schema({
 
 const model = mongoose.model('products', schema, 'products');
 
-const safe = (user: (mongoose.Document & { _doc?: Product }) | null) => {
-  if (user === null) {
-    return Promise.reject();
-  }
-
-  return { ...user._doc, code: undefined, password: undefined };
+const safe = (item: (mongoose.Document & { _doc?: Product }) | null): Product => {
+  return { ...item!._doc! };
 }
 
 export const getItems = () => {

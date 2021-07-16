@@ -13,6 +13,12 @@ export const createApi = (router: Router) => {
     Storage.getItems().then(users => res.send(users));
   });
   
+  router.post('/api/v1/products/remove', function(req, res) {
+    Storage.clearItems(req.body).then(items => {
+      res.send(items);
+    });
+  });
+  
   router.post('/api/v1/products', function(req, res) {
     Storage.createItem(req.body).then(user => res.send(user));
   });
@@ -31,9 +37,5 @@ export const createApi = (router: Router) => {
   
   router.delete('/api/v1/products/:id', function(req, res) {
     Storage.removeItem(req.params.id).then(() => res.send(null));
-  });
-  
-  router.delete('/api/v1/products', function(req, res) {
-    Storage.clearItems(req.body).then(() => res.send(null));
   });
 }

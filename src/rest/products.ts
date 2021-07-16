@@ -33,5 +33,5 @@ export const removeItem = (id: string) => {
 }
 
 export const clearItems = (product: Partial<Product>) => {
-  return del(`/products`, product);
+  return post(`/products/remove`, product);
 }
