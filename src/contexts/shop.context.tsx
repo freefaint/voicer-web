@@ -11,10 +11,14 @@ import { CartContext } from "./cart.context";
 
 export const ShopContext = createContext<Shop | undefined>(undefined);
 
-export const ShopProvider = ({ children, user }: PropsWithChildren<{ user: string }>) => {
+export const ShopProvider = ({ children, user, onLogout }: PropsWithChildren<{ onLogout: () => void; user: string }>) => {
   const { db: products, clearDB, uploadDB, editDB, addDB, removeDB } = useData(user);
   const { seconds, reset: resetTimer } = useTimeout(180);
   const [ demo, setDemo ] = useState(true);
+
+  useCommand('мексиканский сервис', () => {
+    onLogout();
+  });
 
   const [currentId, setCurrentId] = useState<string>();
 
@@ -142,7 +146,7 @@ export const ShopProvider = ({ children, user }: PropsWithChildren<{ user: strin
     addDB,
     editDB,
   }), [products, currentId, demo, count, close, clear, reset, add, remove, setCurrent, clearDB, uploadDB, removeDB, addDB, editDB]);
-  console.log(demo);
+  
   return (
     <ShopContext.Provider value={context}>
       {children}

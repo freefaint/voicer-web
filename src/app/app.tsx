@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import { Shop } from '../components/shop';
 
 import { CartProvider } from '../contexts/cart.context';
@@ -7,7 +9,6 @@ import { SpeechProvider } from '../contexts/speech.context';
 import { useAuth } from '../hooks/useAuth';
 import { Login } from '../components/account/login';
 import { Admin } from '../components/account/admin';
-import { useState } from 'react';
 
 function App() {
   const { user, login, logout } = useAuth();
@@ -26,7 +27,7 @@ function App() {
       {user && (!user.admin || selectedUser) && (
         <SpeechProvider>
           <CartProvider>
-            <ShopProvider user={selectedUser || user._id!}>
+            <ShopProvider onLogout={logout} user={selectedUser || user._id!}>
               <Shop admin={user.admin} onClearSelectedUser={user.admin ? (() => setSelectedUser(undefined)) : undefined} onLogout={logout} />
             </ShopProvider>
           </CartProvider>

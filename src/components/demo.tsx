@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 
-import backgroundImgSrc from '../assets/demo.jpg';
+import backgroundImgSrc from '../assets/HD.svg';
 
 interface Props {
   onClick: () => void;
@@ -22,6 +22,7 @@ export const Demo = ({ onClick }: Props) => {
   return (
     <Card onClick={onClick} style={{ width: "calc(100% - 2rem)", display: "flex", position: "relative" }}>
       <CardMedia
+        style={{ backgroundSize: "contain" }}
         className={classes.media}
         image={backgroundImgSrc}
       />

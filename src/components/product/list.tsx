@@ -1,5 +1,5 @@
-import { Button, Fab, Grid, Typography } from "@material-ui/core";
-import ExitIcon from '@material-ui/icons/ExitToAppRounded';
+import { Button, Grid, Typography } from "@material-ui/core";
+// import ExitIcon from '@material-ui/icons/ExitToAppRounded';
 import { ChangeEvent, useCallback, useRef } from "react";
 import { download } from "tools/download";
 import { useCommand } from "../../hooks/useCommand";
@@ -87,9 +87,9 @@ export const ProductList = ({ admin, products, style, onLogout, onRemove, onAdd,
               <input key={products.length} ref={ref} style={{ visibility: "hidden" }} type="file" onChange={handleChange} />
             </div>
           )}
-          <Fab color="secondary" onClick={onLogout} style={{ marginRight: "2rem" }}>
+          {/* <Fab color="secondary" onClick={onLogout} style={{ marginRight: "2rem" }}>
             <ExitIcon />
-          </Fab>
+          </Fab> */}
         </div>
       </div>
 
