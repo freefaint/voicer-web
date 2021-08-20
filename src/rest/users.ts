@@ -1,5 +1,5 @@
 // Rest
-import { get, post } from './common';
+import { get, post } from '.';
 
 // Types
 import { IUser } from '../types/users';

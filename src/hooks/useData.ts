@@ -1,34 +1,34 @@
-import { useCallback, useEffect, useState } from "react";
-import * as ProductsService from '../rest/products';
-import { Product } from "../types/product";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { Service } from "rest/common";
 
+export function useData<T extends { _id?: string }>(user: string, name: string) {
+  const [ db, setDb ] = useState<T[]>([]);
 
-export const useData = (user: string) => {
-  const [ db, setDb ] = useState<Product[]>([]);
+  const service = useMemo(() => new Service<T>(name), [name]);
 
   const getDB = useCallback(() => {
-    ProductsService.findItems({ user }).then(setDb);
-  }, [ user ]);
+    service.findItems({ user } as any).then(setDb);
+  }, [ service, user, setDb ]);
 
   const clearDB = useCallback(() => {
-    ProductsService.clearItems({ user }).then(getDB);
-  }, [ user, getDB ]);
+    service.clearItems({ user } as any).then(getDB);
+  }, [ service, user, getDB ]);
 
-  const uploadDB = useCallback((data: Product[]) => {
-    ProductsService.putItems(data.map(i => ({ ...i, user }))).then(getDB);
-  }, [ user, getDB ]);
+  const uploadDB = useCallback((data: T[]) => {
+    service.putItems(data.map(i => ({ ...i, user }))).then(getDB);
+  }, [ service, user, getDB ]);
 
-  const editDB = useCallback((product: Partial<Product>) => {
-    ProductsService.patchItem({ ...product, user }).then(getDB);
-  }, [ user, getDB ]);
+  const editDB = useCallback((product: Partial<T>) => {
+    service.patchItem({ ...product, user }).then(getDB);
+  }, [ service, user, getDB ]);
 
-  const addDB = useCallback((product: Product) => {
-    ProductsService.addItem({ ...product, user }).then(getDB);
-  }, [ user, getDB ]);
+  const addDB = useCallback((product: T) => {
+    service.addItem({ ...product, user }).then(getDB);
+  }, [ service, user, getDB ]);
 
-  const removeDB = useCallback((product: Product) => {
-    ProductsService.removeItem(product._id!).then(getDB);
-  }, [ getDB ]);
+  const removeDB = useCallback((product: T) => {
+    service.removeItem(product._id!).then(getDB);
+  }, [ service, getDB ]);
 
   useEffect(getDB, [ getDB ]);
 

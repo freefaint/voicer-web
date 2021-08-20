@@ -1,74 +1,38 @@
-// React
-import axios, { AxiosResponse } from 'axios';
+// Rest
+import { get, post, patch, put, del } from '.';
 
-const ORIGIN = typeof document !== "undefined" ? document.location && document.location.origin : 'https://freefaint.ru';
-const API_PATH = 'api';
-const VERSION = 'v1';
-const BASE_URL = `${ORIGIN}/${API_PATH}/${VERSION}`;
+export class Service<T extends { _id?: string }> {
+  constructor(private name: string) {}
 
-const getConfig = () => {
-  const headers = {
-    // Accept: 'application/json',
-    // 'Content-Type': 'application/json',
-  };
-
-  return {
-    baseURL: BASE_URL,
-
-    headers,
-  };
-};
-
-const responseHandler = (resp: AxiosResponse) => {
-  return resp.data;
-};
-
-/** HTTP GET */
-export function get(url: string, config?: {}) {
-  return axios.get(url, { ...getConfig(), ...config }).then(responseHandler);
-}
-
-/** HTTP PUT */
-export function put(url: string, data: object = {}, config?: {}) {
-  return axios.put(url, data, { ...getConfig(), ...config }).then(responseHandler);
-}
-
-/** HTTP POST */
-export function post(url: string, data: object = {}, config?: {}) {
-  return axios.post(url, data, { ...getConfig(), ...config }).then(responseHandler);
-}
-
-/** HTTP PATCH */
-export function patch(url: string, data: object = {}, config?: {}) {
-  return axios.patch(url, data, { ...getConfig(), ...config }).then(responseHandler);
-}
-
-/** HTTP DELETE */
-export function del(url: string, config?: {}) {
-  return axios.delete(url, { ...getConfig(), ...config }).then(responseHandler);
-}
-
-export function upload(url: string, file: File, onProgress?: (percent: number) => void, compress?: boolean) {
-  const form = new FormData();
-
-  form.append('file', file);
-
-  if (compress) {
-    form.append('compress', 'true');
+  getItem(id: string) {
+    return get(`/${this.name}/${id}`);
   }
 
-  return axios
-    .post(url, form, {
-      ...getConfig(),
+  getItems(): Promise<T[]> {
+    return get(`/${this.name}`);
+  }
 
-      baseURL: BASE_URL,
-      withCredentials: true,
+  findItems(data: Partial<T>): Promise<T[]> {
+    return post(`/${this.name}/find`, data);
+  }
 
-      onUploadProgress: e => {
-        if (e.lengthComputable && onProgress) {
-          onProgress(Math.ceil((e.loaded / e.total) * 100));
-        }
-      },
-    })
-    .then(resp => resp.data);
+  addItem(data: T) {
+    return post(`/${this.name}`, data);
+  }
+
+  putItems(data: T[]) {
+    return put(`/${this.name}`, data);
+  }
+
+  patchItem(data: Partial<T>) {
+    return patch(`/${this.name}/${data._id}`, data);
+  }
+
+  removeItem(id: string) {
+    return del(`/${this.name}/${id}`);
+  }
+
+  clearItems(product: Partial<T>) {
+    return post(`/${this.name}/remove`, product);
+  }
 }

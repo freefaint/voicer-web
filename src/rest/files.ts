@@ -1,5 +1,5 @@
 // Rest
-import { get, del, upload } from './common';
+import { get, del, upload } from '.';
 
 export const add = (file: File, onProgress?: (percent: number) => void, compress?: boolean) => {
   return upload('/files', file, onProgress, compress);

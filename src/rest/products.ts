@@ -1,5 +1,5 @@
 // Rest
-import { get, post, patch, put, del } from './common';
+import { get, post, patch, put, del } from '.';
 
 // Types
 import { Product } from '../types/product';

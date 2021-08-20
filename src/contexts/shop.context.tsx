@@ -1,4 +1,6 @@
 import { createContext, PropsWithChildren, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { Group } from "types/group";
+import { Product } from "types/product";
 
 import { useCommand } from "../hooks/useCommand";
 import { useData } from "../hooks/useData";
@@ -12,9 +14,12 @@ import { CartContext } from "./cart.context";
 export const ShopContext = createContext<Shop | undefined>(undefined);
 
 export const ShopProvider = ({ children, user, onLogout }: PropsWithChildren<{ onLogout: () => void; user: string }>) => {
-  const { db: products, clearDB, uploadDB, editDB, addDB, removeDB } = useData(user);
+  const { db: products, clearDB, uploadDB, editDB, addDB, removeDB } = useData<Product>(user, "products");
+  const { db: groups } = useData<Group>(user, "groups");
   const { seconds, reset: resetTimer } = useTimeout(180);
   const [ demo, setDemo ] = useState(true);
+
+  console.log(groups);
 
   useCommand('мексиканский сервис', () => {
     onLogout();
