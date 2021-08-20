@@ -127,18 +127,19 @@ export const Shop = ({ admin, onLogout, onClearSelectedUser }: Props) => {
         />
       )}
 
-      <ProductList
-        style={{ display: !current && !fresh && !openedCart && !shop.demo && !openedReady ? "flex" : "none" }}
-        onCommand={shop.resetDemoTimer}
-        onSelectProduct={shop.setCurrentId}
-        products={shop.products}
-        admin={admin}
-        onLogout={onClearSelectedUser || onLogout}
-        onAdd={handleAdd}
-        onUpload={shop.uploadDB}
-        onRemove={shop.removeDB}
-        onClear={shop.clearDB}
-      />
+      <div style={{ display: !current && !fresh && !openedCart && !shop.demo && !openedReady ? "flex" : "none" }}>
+        <ProductList
+          onCommand={shop.resetDemoTimer}
+          onSelectProduct={shop.setCurrentId}
+          products={shop.products}
+          admin={admin}
+          onLogout={onClearSelectedUser || onLogout}
+          onAdd={handleAdd}
+          onUpload={shop.uploadDB}
+          onRemove={shop.removeDB}
+          onClear={shop.clearDB}
+        />
+      </div>
 
       {openedCart && !openedReady && !shop.demo && (
         <Cart
