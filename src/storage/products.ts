@@ -16,6 +16,7 @@ const schema = new mongoose.Schema({
   textcolor: String,
   names: Array,
   img: String,
+  group: Array,
 });
 
 const model = mongoose.model('products', schema, 'products');

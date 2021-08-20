@@ -17,6 +17,7 @@ import { createApi as createAuthApi } from './api/auth';
 import { createApi as createUsersApi } from './api/users';
 import { createApi as createFilesApi } from './api/files';
 import { createApi as createOrderApi } from './api/order';
+import { createApi as createGroupsApi } from './api/groups';
 import { createApi as createProductsApi } from './api/products';
 
 // Express
@@ -40,6 +41,7 @@ createAuthApi(router);
 createUsersApi(router);
 createFilesApi(router);
 createOrderApi(router);
+createGroupsApi(router);
 createProductsApi(router);
 
 router.get([ '/*' ], function(req, res) {

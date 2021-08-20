@@ -12,4 +12,5 @@ export interface Product {
   textcolor: string;
   names: string[];
   img: string;
+  groups?: string[];
 }
