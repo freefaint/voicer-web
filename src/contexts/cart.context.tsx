@@ -1,7 +1,13 @@
 import { createContext, PropsWithChildren, useCallback, useMemo, useState } from "react";
 import { Cart, Position } from "../../src/types/cart";
 
-export const CartContext = createContext<Cart | undefined>(undefined);
+export const CartContext = createContext<Cart>({
+  products: [],
+  add: () => void 0,
+  del: () => void 0,
+  clear: () => void 0,
+  count: () => void 0,
+});
 
 export const CartProvider = ({ children }: PropsWithChildren<{}>) => {
   const [products, setProducts] = useState<Position[]>([]);

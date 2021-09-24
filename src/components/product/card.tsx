@@ -101,6 +101,10 @@ export const ProductCard = ({ admin, product: prod, onSave, onDelete, onBuy, onR
               </FormControl>
 
               <FormControl>
+                <TextField label="Категория" name="category" value={product.category} onChange={handleChange} />
+              </FormControl>
+
+              <FormControl>
                 <TextField label="Артикул" name="id" value={product.id} onChange={handleChange} />
               </FormControl>
 

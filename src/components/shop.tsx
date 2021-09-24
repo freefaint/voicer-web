@@ -26,7 +26,7 @@ export const Shop = ({ admin, onLogout, onClearSelectedUser }: Props) => {
   const shop = useContext(ShopContext);
   const cart = useContext(CartContext);
 
-  const current = useMemo(() => shop?.products.find(i => i._id === shop?.currentId), [shop?.products, shop?.currentId]);
+  const current = useMemo(() => shop.products.find(i => i._id === shop.currentId), [shop.products, shop.currentId]);
 
   const [fresh, setFresh] = useState<Product>();
 
@@ -46,15 +46,15 @@ export const Shop = ({ admin, onLogout, onClearSelectedUser }: Props) => {
   }, [setFresh]);
 
   const handleClose = useCallback(() => {
-    shop?.close();
+    shop.close();
     setFresh(undefined);
   }, [shop, setFresh]);
 
   const handleSave = useCallback((product: Product) => {
     if (product._id) {
-      shop?.editDB(product);
+      shop.editDB(product);
     } else {
-      shop?.addDB(product);
+      shop.addDB(product);
     }
   }, [shop]);
 
@@ -66,7 +66,7 @@ export const Shop = ({ admin, onLogout, onClearSelectedUser }: Props) => {
     setOpenedCart(false);
   }, [setOpenedCart]);
 
-  const handleCLoseReady = useCallback(() => {
+  const handleCloseReady = useCallback(() => {
     setOpenedReady(undefined);
   }, [setOpenedReady]);
 
@@ -74,7 +74,7 @@ export const Shop = ({ admin, onLogout, onClearSelectedUser }: Props) => {
     const date = new Date().toISOString();
     const orderNumber = parseInt(new Date().valueOf().toString().substr(6, 4), 10);
 
-    const data = cart?.products.map(i => ({ product: shop?.products.filter(j => j._id === i.id)[0], count: i.count }));
+    const data = cart.products.map(i => ({ product: shop.products.filter(j => j._id === i.id)[0], count: i.count }));
     const total = data?.map(i => i.count * parseInt(i.product!.cost)).reduce((a, b) => a + b, 0);
 
     if (!data?.length) {
@@ -92,42 +92,38 @@ export const Shop = ({ admin, onLogout, onClearSelectedUser }: Props) => {
         count: i.count
       }))
     }).then(() => {
-      shop?.clear();
+      shop.clear();
 
       setOpenedReady(orderNumber);
 
       fetch('https://voice.be-at.ru/mail.php', { method: 'post', body: JSON.stringify({ order: orderNumber, data, total, ssoboi: ssoboi ? 1 : 0 }) });
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [JSON.stringify(cart?.products)]);
+  }, [JSON.stringify(cart.products)]);
 
   useEffect(() => {
-    if (!cart?.products.length) {
+    if (!cart.products.length) {
       setOpenedCart(false);
     }
-  }, [cart, cart?.products]);
-
-  if (!shop || !cart) {
-    return null;
-  }
+  }, [cart, cart.products]);
 
   return (
     <div style={{ display: "flex", height: "100vh", padding: "2rem 0 2rem 2rem", boxSizing: "border-box", backgroundColor: "#eee" }}>
       {(current || fresh) && !openedCart && !openedReady && !shop.demo && (
         <ProductCard
           admin={admin}
-          cart={cart?.products}
-          onCount={shop?.count}
-          onBuy={(id, count) => shop?.add(id, count)}
-          onRemove={id => shop?.remove(id)}
-          onDelete={product => shop?.removeDB(product)}
+          cart={cart.products}
+          onCount={shop.count}
+          onBuy={(id, count) => shop.add(id, count)}
+          onRemove={id => shop.remove(id)}
+          onDelete={product => shop.removeDB(product)}
           onClose={handleClose}
           onSave={handleSave}
           product={(fresh || current)!}
         />
       )}
 
-      <div style={{ display: !current && !fresh && !openedCart && !shop.demo && !openedReady ? "flex" : "none" }}>
+      <div style={{ display: !current && !fresh && !openedCart && !shop.demo && !openedReady ? "flex" : "none", flexGrow: 1 }}>
         <ProductList
           onCommand={shop.resetDemoTimer}
           onSelectProduct={shop.setCurrentId}
@@ -165,12 +161,12 @@ export const Shop = ({ admin, onLogout, onClearSelectedUser }: Props) => {
       {!!openedReady && !shop.demo && (
         <Result
           code={openedReady + ''}
-          onClose={handleCLoseReady}
+          onClose={handleCloseReady}
         />
       )}
 
       {!!shop.demo && (
-        <Demo onClick={shop.resetDemoTimer} />
+        <Demo products={shop.products} onClick={shop.resetDemoTimer} />
       )}
     </div>
   )

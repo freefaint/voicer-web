@@ -27,7 +27,7 @@ export const ProductItem = ({ product, admin, onRemove, onSelect }: { admin?: bo
   }, [onRemove, product]);
 
   return (
-    <div style={{ margin: "0 2rem 2rem 0" }}>
+    <div style={{ margin: "0 2rem 2rem 0", display: "flex", flexDirection: "column" }}>
       <Card>
         <CardActionArea onClick={handleClick}>
           <CardMedia

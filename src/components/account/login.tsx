@@ -21,7 +21,7 @@ export const Login = ({ onLogin }: { onLogin: (user: { login: string, password: 
           <form onSubmit={handleSubmit}>
             <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", margin: "4rem" }}>
               <TextField label="Логин" value={login} onChange={(e) => setLogin(e.currentTarget.value)} />
-              <TextField label="Пароль" value={password} onChange={(e) => setPassword(e.currentTarget.value)} />
+              <TextField label="Пароль" type="password" value={password} onChange={(e) => setPassword(e.currentTarget.value)} />
               
               <Button disabled={!login || !password} type="submit">Вход</Button>
             </div>

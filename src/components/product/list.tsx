@@ -96,13 +96,13 @@ export const ProductList = ({ admin, products, style, onLogout, onRemove, onAdd,
     download('products.json', JSON.stringify(products.map(({ __v, _id, user, ...rest }) => ({ ...rest })), null, "\t"));
   }, [products]);
 
-  const groups = useMemo(() => group(products), [products]);
+  const groups = useMemo(() => group(products, item => item.category), [products]);
 
   return (
     <>
       <Categories list={Object.keys(groups)} />
           
-      <div style={{ display: "flex", flexDirection: "column", position: "relative", ...style }}>
+      <div style={{ display: "flex", flexDirection: "column", flexGrow: 1, position: "relative", ...style }}>
         {admin && (
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <Typography gutterBottom variant="h2" component="h2">
@@ -138,13 +138,13 @@ export const ProductList = ({ admin, products, style, onLogout, onRemove, onAdd,
             </>
           ))}
 
-          <Grid container spacing={0} style={{ margin: "none" }} >
+          {/* <Grid container spacing={0} style={{ margin: "none" }} >
             {products.map(product => (
               <Grid key={product._id} item xs={3}>
                 <ProductItem admin={admin} onRemove={onRemove} product={product} onSelect={onSelectProduct} />
               </Grid>
             ))}
-          </Grid>
+          </Grid> */}
         </div>
       </div>
     </>

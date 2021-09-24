@@ -3,28 +3,44 @@ import { Product } from "types/product";
 
 import { useCommand } from "../hooks/useCommand";
 import { useData } from "../hooks/useData";
-import { useSpeech } from "../hooks/useSpeech";
 import { useTimeout } from "../hooks/useTimeout";
 
 import { Shop } from "../types/shop";
 
 import { CartContext } from "./cart.context";
+import { SpeechContext } from "./speech.context";
 
-export const ShopContext = createContext<Shop | undefined>(undefined);
+export const ShopContext = createContext<Shop>({
+  demo: false,
+  products: [],
+  // currentId,
+  count: () => void 0,
+  close: () => void 0,
+  clear: () => void 0,
+  resetDemoTimer: () => void 0,
+  add: () => void 0,
+  remove: () => void 0,
+  setCurrentId: () => void 0,
+  clearDB: () => void 0,
+  uploadDB: () => void 0,
+  removeDB: () => void 0,
+  addDB: () => void 0,
+  editDB: () => void 0,
+});
 
 export const ShopProvider = ({ children, user, onLogout }: PropsWithChildren<{ onLogout: () => void; user: string }>) => {
   const { db: products, clearDB, uploadDB, editDB, addDB, removeDB } = useData<Product>(user, "products");
-  // const { db: groups } = useData<Group>(user, "groups");
-  const { seconds, reset: resetTimer } = useTimeout(180);
+  
+  const { seconds, reset: resetTimer } = useTimeout(60);
   const [ demo, setDemo ] = useState(true);
 
-  useCommand('мексиканский сервис', () => {
+  useCommand('мексиканский член', () => {
     onLogout();
   });
 
   const [currentId, setCurrentId] = useState<string>();
 
-  const speech = useSpeech();
+  const speech = useContext(SpeechContext);
   const cart = useContext(CartContext);
 
   const reset = useCallback(() => {
@@ -46,28 +62,28 @@ export const ShopProvider = ({ children, user, onLogout }: PropsWithChildren<{ o
 
   const add = useCallback((id: string, count?: number) => {
     reset();
-    cart?.add(id, count);
+    cart.add(id, count);
     close();
   }, [cart, reset, close]);
 
   const remove = useCallback((id: string) => {
     reset();
-    cart?.del(id);
+    cart.del(id);
   }, [cart, reset]);
 
   const count = useCallback((id: string, count: number) => {
     reset();
-    cart?.count(id, count);
+    cart.count(id, count);
   }, [cart, reset]);
 
   const clear = useCallback(() => {
     reset();
-    cart?.clear();
+    cart.clear();
   }, [reset, cart]);
 
   useEffect(() => {
     if (!seconds) {
-      cart?.clear();
+      cart.clear();
       close();
       setDemo(true);
     }

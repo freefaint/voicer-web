@@ -1,11 +1,11 @@
-import { Product } from "types/product";
+export function group<T>(arr: T[], fn: (item: T) => string) {
+  return arr.reduce<Record<string, T[]>>((record, item) => {
+    const result = fn(item);
 
-export function group(arr: Product[]) {
-  return arr.reduce<Record<string, Product[]>>((record, item) => {
-    if (!record[item.category]) {
-      record[item.category] = [ item ];
+    if (!record[result]) {
+      record[result] = [ item ];
     } else {
-      record[item.category].push(item);
+      record[result].push(item);
     }
 
     return record;

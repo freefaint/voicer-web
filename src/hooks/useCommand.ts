@@ -1,9 +1,9 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 
-import { useSpeech } from "./useSpeech";
+import { SpeechContext } from "contexts/speech.context";
 
 export const useCommand = (command: string, fn: (command?: string) => void) => {
-  const speech = useSpeech();
+  const speech = useContext(SpeechContext);
 
   useEffect(() => {
     const phraze = speech?.results.find(i => i.toLowerCase().indexOf(command.toLowerCase()) !== -1);

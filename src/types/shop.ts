@@ -16,5 +16,4 @@ export interface Shop {
   editDB: (product: Product) => void;
   addDB: (product: Product) => void;
   removeDB: (product: Product) => void;
-
 }
