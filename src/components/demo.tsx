@@ -25,7 +25,7 @@ const useImageStyles = makeStyles({
 export const Demo = ({ onClick, products }: Props) => {
   const classes = useImageStyles();
 
-  const [currentDemoProduct, setCurrentDemoProduct] = useState<number>(products.length);
+  const [currentDemoProduct, setCurrentDemoProduct] = useState<number>();
 
   const { seconds, reset } = useTimeout(10);
 
@@ -40,7 +40,9 @@ export const Demo = ({ onClick, products }: Props) => {
     }
   }, [products.length, reset, seconds]);
 
-  const demoProduct = useMemo(() => products[currentDemoProduct], [products, currentDemoProduct]);
+  console.log("inited", currentDemoProduct);
+
+  const demoProduct = useMemo(() => currentDemoProduct !== undefined ? products[currentDemoProduct] : undefined, [products, currentDemoProduct]);
 
   return (
     <Card onClick={onClick} style={{ width: "calc(100% - 2rem)", display: "flex", position: "relative" }}>
