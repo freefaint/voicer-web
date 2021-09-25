@@ -40,8 +40,6 @@ export const Demo = ({ onClick, products }: Props) => {
     }
   }, [products.length, reset, seconds]);
 
-  console.log("inited", currentDemoProduct);
-
   const demoProduct = useMemo(() => currentDemoProduct !== undefined ? products[currentDemoProduct] : undefined, [products, currentDemoProduct]);
 
   return (

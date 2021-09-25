@@ -111,6 +111,7 @@ export const Shop = ({ admin, onLogout, onClearSelectedUser }: Props) => {
     <div style={{ display: "flex", height: "100vh", padding: "2rem 0 2rem 2rem", boxSizing: "border-box", backgroundColor: "#eee" }}>
       {(current || fresh) && !openedCart && !openedReady && !shop.demo && (
         <ProductCard
+          key={current?.id}
           admin={admin}
           cart={cart.products}
           onCount={shop.count}
