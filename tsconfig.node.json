@@ -30,6 +30,8 @@
     "src/contexts",
     "src/tools",
     "src/hooks",
+    "src/templates",
+    "src/constants",
     "src/styles",
     "src/index.tsx",
     "src/react-app-env.d.ts",
